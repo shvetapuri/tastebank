@@ -79,7 +79,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1It-qL-gQK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="916" y="250"/>
+            <point key="canvasLocation" x="937" y="986"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="J82-fG-WtA">
@@ -104,7 +104,7 @@
         <!--Item-->
         <scene sceneID="AmC-jD-fz2">
             <objects>
-                <viewController id="kZa-xJ-DTk" sceneMemberID="viewController">
+                <viewController id="kZa-xJ-DTk" customClass="SignInViewController" customModule="tb_fb" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="OxJ-CO-DBG">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -164,6 +164,9 @@
                                 <state key="normal" title="Facebook">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
+                                <connections>
+                                    <action selector="facebookBtnPressed:" destination="kZa-xJ-DTk" eventType="touchUpInside" id="8S1-d1-CF4"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fCW-dn-3MI">
                                 <rect key="frame" x="112" y="383" width="120" height="30"/>
@@ -222,7 +225,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3J7-82-8Nw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1588" y="189.3553223388306"/>
+            <point key="canvasLocation" x="1399" y="301"/>
         </scene>
     </scenes>
 </document>

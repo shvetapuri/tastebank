@@ -26,6 +26,7 @@
 		E6CA214323203D92003DB634 /* RoundButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6CA214223203D92003DB634 /* RoundButton.swift */; };
 		E6CA214523203F7D003DB634 /* StyleTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6CA214423203F7D003DB634 /* StyleTextField.swift */; };
 		E6CA2147232040B1003DB634 /* styleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6CA2146232040B1003DB634 /* styleButton.swift */; };
+		E6CA214A2320636F003DB634 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6CA21492320636F003DB634 /* SignInViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,6 +77,7 @@
 		E6CA214223203D92003DB634 /* RoundButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundButton.swift; sourceTree = "<group>"; };
 		E6CA214423203F7D003DB634 /* StyleTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleTextField.swift; sourceTree = "<group>"; };
 		E6CA2146232040B1003DB634 /* styleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = styleButton.swift; sourceTree = "<group>"; };
+		E6CA21492320636F003DB634 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		F46B1D4E5EF1677090CC050C /* Pods_tb_fb.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_tb_fb.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -155,6 +157,7 @@
 		E6C1790C22862027000516D6 /* tb_fb */ = {
 			isa = PBXGroup;
 			children = (
+				E6CA2148232062FD003DB634 /* Controller */,
 				E6CA214123203BDD003DB634 /* View */,
 				E6CA213E23203B64003DB634 /* Util */,
 				E6C1790D22862027000516D6 /* AppDelegate.swift */,
@@ -206,6 +209,14 @@
 				E6CA2146232040B1003DB634 /* styleButton.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		E6CA2148232062FD003DB634 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				E6CA21492320636F003DB634 /* SignInViewController.swift */,
+			);
+			path = Controller;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -474,6 +485,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E6CA214A2320636F003DB634 /* SignInViewController.swift in Sources */,
 				E6CA214323203D92003DB634 /* RoundButton.swift in Sources */,
 				E6CA2147232040B1003DB634 /* styleButton.swift in Sources */,
 				E6C1791022862027000516D6 /* ViewController.swift in Sources */,

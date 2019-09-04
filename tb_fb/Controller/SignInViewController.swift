@@ -17,6 +17,12 @@ class SignInViewController: UIViewController {
     }
     
 
+    @IBAction func facebookBtnPressed(_ sender: Any) {
+        
+        let loginButton = FBSDKLoginButton()
+        loginButton.delegate = self
+        
+    }
     /*
     // MARK: - Navigation
 

@@ -9,6 +9,8 @@
 import UIKit
 import GooglePlaces
 import Firebase
+
+
 //https://tastebank-1550295921926.firebaseapp.com/__/auth/handler
 
 @UIApplicationMain
@@ -20,6 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         GMSPlacesClient.provideAPIKey("AIzaSyCoXNK3n-PHKFOOO6dk9MsHZS6c33hcbWU")
         FirebaseApp.configure()
+        
         
         // Override point for customization after application launch.
         return true
