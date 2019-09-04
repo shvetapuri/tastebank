@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>851992865844-clipr28upqdkkfkucidkj3uca6n4rpho.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.851992865844-clipr28upqdkkfkucidkj3uca6n4rpho</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBGjKhMrUmCPp02H6Yz8nBkYD2CzXqix74</string>
+	<key>GCM_SENDER_ID</key>
+	<string>851992865844</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.spuri.tb-fb</string>
+	<key>PROJECT_ID</key>
+	<string>tastebank-1550295921926</string>
+	<key>STORAGE_BUCKET</key>
+	<string>tastebank-1550295921926.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:851992865844:ios:73124059e4d6b8b1</string>
+	<key>DATABASE_URL</key>
+	<string>https://tastebank-1550295921926.firebaseio.com</string>
+</dict>
+</plist>
