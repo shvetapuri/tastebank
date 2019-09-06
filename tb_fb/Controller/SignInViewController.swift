@@ -6,23 +6,22 @@
 //  Copyright © 2019 Shveta Puri. All rights reserved.
 //
 
+//import FBSDKLoginKit
+import FirebaseAuth
+import FacebookCore
+import GoogleSignIn
 import UIKit
 
 class SignInViewController: UIViewController {
-
+    
+private let readPermissions: [ReadPermission] = [ .publicProfile, .email]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+       
     }
     
-
-    @IBAction func facebookBtnPressed(_ sender: Any) {
-        
-        let loginButton = FBSDKLoginButton()
-        loginButton.delegate = self
-        
-    }
+    
     /*
     // MARK: - Navigation
 

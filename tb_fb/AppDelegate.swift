@@ -9,6 +9,8 @@
 import UIKit
 import GooglePlaces
 import Firebase
+import FacebookCore
+ 
 
 
 //https://tastebank-1550295921926.firebaseapp.com/__/auth/handler
