@@ -10,10 +10,10 @@ target 'tb_fb' do
   pod 'Firebase/Firestore'
   pod 'Firebase/Auth'
   # Pods for tb_fb
-  pod 'FacebookCore'
-  pod 'FacebookLogin'
-  pod 'FacebookShare'
   pod 'GoogleSignIn'
+  pod 'FirebaseUI'
+  pod 'FirebaseUI/Auth'
+  pod 'FirebaseUI/Google'
  
   target 'tb_fbTests' do
     inherit! :search_paths

@@ -10,7 +10,8 @@ import UIKit
 import GooglePlaces
 import Firebase
 import FacebookCore
- 
+import GoogleSignIn
+import FirebaseAuthUI
 
 
 //https://tastebank-1550295921926.firebaseapp.com/__/auth/handler
@@ -21,9 +22,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        
-        GMSPlacesClient.provideAPIKey("AIzaSyCoXNK3n-PHKFOOO6dk9MsHZS6c33hcbWU")
         FirebaseApp.configure()
+
+        GMSPlacesClient.provideAPIKey("AIzaSyCoXNK3n-PHKFOOO6dk9MsHZS6c33hcbWU")
+  
         
         
         // Override point for customization after application launch.

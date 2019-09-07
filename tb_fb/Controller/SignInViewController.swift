@@ -5,22 +5,44 @@
 //  Created by Shveta Puri on 9/4/19.
 //  Copyright © 2019 Shveta Puri. All rights reserved.
 //
+import Firebase
 
-//import FBSDKLoginKit
 import FirebaseAuth
-import FacebookCore
+//import FirebaseGoogleAuthUI
+
 import GoogleSignIn
 import UIKit
+import FirebaseAuthUI
 
 class SignInViewController: UIViewController {
     
-private let readPermissions: [ReadPermission] = [ .publicProfile, .email]
-    
+    let providers: [FUIAuthProvider] = [
+        FUIGoogleAuth()
+        ]
+    let authUI = FUIAuth.defaultAuthUI()
+
     override func viewDidLoad() {
         super.viewDidLoad()
-       
+
+        self.authUI?.providers = providers
+        self.authUI!.delegate = self as! FUIAuthDelegate
+
+        // Present the auth view controller and then implement the sign in callback.
+        let authViewController = self.authUI!.authViewController()
+        
+    }
+    func authUI(_ authUI: FUIAuth, didSignInWithAuthDataResult authDataResult: AuthDataResult?, error: Error?) {
+        // handle user (`authDataResult.user`) and error as necessary
     }
     
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any]) -> Bool {
+        let sourceApplication = options[UIApplication.OpenURLOptionsKey.sourceApplication] as! String?
+        if FUIAuth.defaultAuthUI()?.handleOpen(url, sourceApplication: sourceApplication) ?? false {
+            return true
+        }
+        // other URL handling goes here.
+        return false
+    }
     
     /*
     // MARK: - Navigation
