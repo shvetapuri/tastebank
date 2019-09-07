@@ -9,7 +9,6 @@
 import UIKit
 import GooglePlaces
 import Firebase
-import FacebookCore
 import GoogleSignIn
 import FirebaseAuthUI
 

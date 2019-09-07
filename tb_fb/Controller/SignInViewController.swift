@@ -6,10 +6,8 @@
 //  Copyright © 2019 Shveta Puri. All rights reserved.
 //
 import Firebase
-
 import FirebaseAuth
-//import FirebaseGoogleAuthUI
-
+import FirebaseGoogleAuthUI
 import GoogleSignIn
 import UIKit
 import FirebaseAuthUI
