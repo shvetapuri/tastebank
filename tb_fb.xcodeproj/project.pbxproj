@@ -26,6 +26,8 @@
 		E6CA214523203F7D003DB634 /* StyleTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6CA214423203F7D003DB634 /* StyleTextField.swift */; };
 		E6CA2147232040B1003DB634 /* styleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6CA2146232040B1003DB634 /* styleButton.swift */; };
 		E6CA214A2320636F003DB634 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6CA21492320636F003DB634 /* SignInViewController.swift */; };
+		E6CCF1A92326C48E00F97069 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6CCF1A82326C48E00F97069 /* SignUpViewController.swift */; };
+		E6CCF1B023280CB700F97069 /* ConstantVal.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6CCF1AF23280CB700F97069 /* ConstantVal.swift */; };
 		F465620AE48EC3C50AB39EDA /* Pods_tb_fbUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F066FDCCEF8659453DB5DDBD /* Pods_tb_fbUITests.framework */; };
 /* End PBXBuildFile section */
 
@@ -77,6 +79,8 @@
 		E6CA214423203F7D003DB634 /* StyleTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleTextField.swift; sourceTree = "<group>"; };
 		E6CA2146232040B1003DB634 /* styleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = styleButton.swift; sourceTree = "<group>"; };
 		E6CA21492320636F003DB634 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
+		E6CCF1A82326C48E00F97069 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		E6CCF1AF23280CB700F97069 /* ConstantVal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstantVal.swift; sourceTree = "<group>"; };
 		E84A847BF21905FB7A58EA28 /* Pods-tb_fb.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tb_fb.debug.xcconfig"; path = "Target Support Files/Pods-tb_fb/Pods-tb_fb.debug.xcconfig"; sourceTree = "<group>"; };
 		F066FDCCEF8659453DB5DDBD /* Pods_tb_fbUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_tb_fbUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -196,6 +200,7 @@
 			isa = PBXGroup;
 			children = (
 				E6CA213F23203B7F003DB634 /* Constants.swift */,
+				E6CCF1AF23280CB700F97069 /* ConstantVal.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -215,6 +220,7 @@
 			isa = PBXGroup;
 			children = (
 				E6CA21492320636F003DB634 /* SignInViewController.swift */,
+				E6CCF1A82326C48E00F97069 /* SignUpViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -465,9 +471,11 @@
 				E6C1791022862027000516D6 /* ViewController.swift in Sources */,
 				E6C1793E228DD79E000516D6 /* MasterTableViewController.swift in Sources */,
 				E6C1790E22862027000516D6 /* AppDelegate.swift in Sources */,
+				E6CCF1A92326C48E00F97069 /* SignUpViewController.swift in Sources */,
 				E65E026922964F7300D1212C /* LocalCollection.swift in Sources */,
 				E6CA214023203B7F003DB634 /* Constants.swift in Sources */,
 				E6CA213D23203AEC003DB634 /* styleView.swift in Sources */,
+				E6CCF1B023280CB700F97069 /* ConstantVal.swift in Sources */,
 				E6CA214523203F7D003DB634 /* StyleTextField.swift in Sources */,
 				E6C17940228DE911000516D6 /* Tastes.swift in Sources */,
 			);
