@@ -10,6 +10,10 @@
 		0CEBB772612F1F46DDA9950F /* Pods_tb_fb.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44A9CA9F967B3E369485B4BF /* Pods_tb_fb.framework */; };
 		ACFF340A318A1C1871117962 /* Pods_tb_fbTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 19CDEC23270F2C68E155C5CF /* Pods_tb_fbTests.framework */; };
 		E65E026922964F7300D1212C /* LocalCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65E026822964F7300D1212C /* LocalCollection.swift */; };
+		E68A8478232961A6005A3FD6 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68A8477232961A6005A3FD6 /* MainViewController.swift */; };
+		E68A847A232964EB005A3FD6 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68A8479232964EB005A3FD6 /* TableViewCell.swift */; };
+		E68A847D23296784005A3FD6 /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68A847C23296784005A3FD6 /* DataService.swift */; };
+		E68A847F23299355005A3FD6 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68A847E23299355005A3FD6 /* LoginViewController.swift */; };
 		E6C1790E22862027000516D6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6C1790D22862027000516D6 /* AppDelegate.swift */; };
 		E6C1791022862027000516D6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6C1790F22862027000516D6 /* ViewController.swift */; };
 		E6C1791322862027000516D6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E6C1791122862027000516D6 /* Main.storyboard */; };
@@ -28,6 +32,8 @@
 		E6CA214A2320636F003DB634 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6CA21492320636F003DB634 /* SignInViewController.swift */; };
 		E6CCF1A92326C48E00F97069 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6CCF1A82326C48E00F97069 /* SignUpViewController.swift */; };
 		E6CCF1B023280CB700F97069 /* ConstantVal.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6CCF1AF23280CB700F97069 /* ConstantVal.swift */; };
+		E6CCF1B2232813B700F97069 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6CCF1B1232813B700F97069 /* File.swift */; };
+		E6CCF1B42328178400F97069 /* helperFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6CCF1B32328178400F97069 /* helperFunctions.swift */; };
 		F465620AE48EC3C50AB39EDA /* Pods_tb_fbUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F066FDCCEF8659453DB5DDBD /* Pods_tb_fbUITests.framework */; };
 /* End PBXBuildFile section */
 
@@ -57,6 +63,10 @@
 		97D1584393E2E3F66D2DD020 /* Pods-tb_fbTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tb_fbTests.release.xcconfig"; path = "Target Support Files/Pods-tb_fbTests/Pods-tb_fbTests.release.xcconfig"; sourceTree = "<group>"; };
 		A36D8875DD4DB6EAA010FF45 /* Pods-tb_fbUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tb_fbUITests.debug.xcconfig"; path = "Target Support Files/Pods-tb_fbUITests/Pods-tb_fbUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		E65E026822964F7300D1212C /* LocalCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalCollection.swift; sourceTree = "<group>"; };
+		E68A8477232961A6005A3FD6 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		E68A8479232964EB005A3FD6 /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
+		E68A847C23296784005A3FD6 /* DataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
+		E68A847E23299355005A3FD6 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		E6C1790A22862027000516D6 /* tb_fb.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tb_fb.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6C1790D22862027000516D6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E6C1790F22862027000516D6 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -81,6 +91,8 @@
 		E6CA21492320636F003DB634 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		E6CCF1A82326C48E00F97069 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		E6CCF1AF23280CB700F97069 /* ConstantVal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstantVal.swift; sourceTree = "<group>"; };
+		E6CCF1B1232813B700F97069 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
+		E6CCF1B32328178400F97069 /* helperFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = helperFunctions.swift; sourceTree = "<group>"; };
 		E84A847BF21905FB7A58EA28 /* Pods-tb_fb.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tb_fb.debug.xcconfig"; path = "Target Support Files/Pods-tb_fb/Pods-tb_fb.debug.xcconfig"; sourceTree = "<group>"; };
 		F066FDCCEF8659453DB5DDBD /* Pods_tb_fbUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_tb_fbUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -136,6 +148,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		E68A847B2329676A005A3FD6 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				E68A847C23296784005A3FD6 /* DataService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
 		E6C1790122862027000516D6 = {
 			isa = PBXGroup;
 			children = (
@@ -161,6 +181,7 @@
 		E6C1790C22862027000516D6 /* tb_fb */ = {
 			isa = PBXGroup;
 			children = (
+				E68A847B2329676A005A3FD6 /* Services */,
 				E6CA2148232062FD003DB634 /* Controller */,
 				E6CA214123203BDD003DB634 /* View */,
 				E6CA213E23203B64003DB634 /* Util */,
@@ -174,6 +195,7 @@
 				E6C1791622862027000516D6 /* LaunchScreen.storyboard */,
 				E6C1791922862027000516D6 /* Info.plist */,
 				E6C1793B228DC2C0000516D6 /* GoogleService-Info.plist */,
+				E6CCF1B1232813B700F97069 /* File.swift */,
 			);
 			path = tb_fb;
 			sourceTree = "<group>";
@@ -201,6 +223,7 @@
 			children = (
 				E6CA213F23203B7F003DB634 /* Constants.swift */,
 				E6CCF1AF23280CB700F97069 /* ConstantVal.swift */,
+				E6CCF1B32328178400F97069 /* helperFunctions.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -212,6 +235,7 @@
 				E6CA214223203D92003DB634 /* RoundButton.swift */,
 				E6CA214423203F7D003DB634 /* StyleTextField.swift */,
 				E6CA2146232040B1003DB634 /* styleButton.swift */,
+				E68A8479232964EB005A3FD6 /* TableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -221,6 +245,8 @@
 			children = (
 				E6CA21492320636F003DB634 /* SignInViewController.swift */,
 				E6CCF1A82326C48E00F97069 /* SignUpViewController.swift */,
+				E68A8477232961A6005A3FD6 /* MainViewController.swift */,
+				E68A847E23299355005A3FD6 /* LoginViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -469,13 +495,19 @@
 				E6CA214323203D92003DB634 /* RoundButton.swift in Sources */,
 				E6CA2147232040B1003DB634 /* styleButton.swift in Sources */,
 				E6C1791022862027000516D6 /* ViewController.swift in Sources */,
+				E68A847F23299355005A3FD6 /* LoginViewController.swift in Sources */,
 				E6C1793E228DD79E000516D6 /* MasterTableViewController.swift in Sources */,
 				E6C1790E22862027000516D6 /* AppDelegate.swift in Sources */,
 				E6CCF1A92326C48E00F97069 /* SignUpViewController.swift in Sources */,
+				E68A8478232961A6005A3FD6 /* MainViewController.swift in Sources */,
 				E65E026922964F7300D1212C /* LocalCollection.swift in Sources */,
+				E68A847D23296784005A3FD6 /* DataService.swift in Sources */,
+				E6CCF1B42328178400F97069 /* helperFunctions.swift in Sources */,
 				E6CA214023203B7F003DB634 /* Constants.swift in Sources */,
+				E6CCF1B2232813B700F97069 /* File.swift in Sources */,
 				E6CA213D23203AEC003DB634 /* styleView.swift in Sources */,
 				E6CCF1B023280CB700F97069 /* ConstantVal.swift in Sources */,
+				E68A847A232964EB005A3FD6 /* TableViewCell.swift in Sources */,
 				E6CA214523203F7D003DB634 /* StyleTextField.swift in Sources */,
 				E6C17940228DE911000516D6 /* Tastes.swift in Sources */,
 			);

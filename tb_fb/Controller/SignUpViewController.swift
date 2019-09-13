@@ -37,6 +37,7 @@ class SignUpViewController: UIViewController {
         //Hide the error label
         errorLabel.alpha = 0
         
+        
     }
     
     func isPasswordValid(_ password: String) -> Bool {
@@ -69,7 +70,7 @@ class SignUpViewController: UIViewController {
         let error = validateFields()
         if error != nil {
             //show error message
-            self.showError(error!)
+            showError(error!, errorLabel: errorLabel)
         } else {
             //Create cleaned version of the data
             let firstName = firstNameTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -82,7 +83,7 @@ class SignUpViewController: UIViewController {
                 //check for errors
                 if err != nil {
                     //there was an error creating user
-                    self.showError("Error creating user")
+                    showError("Error creating user", errorLabel: self.errorLabel)
                 }
                 else {
                     //User was created successfully, now store first and last name
@@ -91,25 +92,32 @@ class SignUpViewController: UIViewController {
                     db.collection("Users").addDocument(data: ["firstname":firstName, "lastname": lastName, "uid": result!.user.uid]) {(error) in
                         if error != nil {
                             //show error message
-                            self.showError("user name could not be saved in db")
+                            showError("user name could not be saved in db", errorLabel: self.errorLabel)
+                        } else {
+                            //sign in and transition to home
+                            Auth.auth().signIn(withEmail: email, password: password) {
+                                (result, error) in
+                                if error != nil {
+                                    //couldn't sign in
+                                    self.errorLabel.text = error!.localizedDescription
+                                    self.errorLabel.alpha = 1
+                                }
+                                else {
+                                    // transition to the home screen
+                                    
+                                   // self.transitionToHome()
+                                    self.performSegue(withIdentifier: "loginFromSignUp", sender: nil)
+
+                                    }
+                            }
                         }
-                }
-            
-        
-        //transition to the home screen
-                   self.transitionToHome()
-                }
                 
-            }
+                    }
             
+                }
+            }
+    
         }
-    }
-    
-    
-    func showError(_ message:String) {
-        errorLabel.text = message
-        errorLabel.alpha = 1
-        
     }
     
     func transitionToHome() {

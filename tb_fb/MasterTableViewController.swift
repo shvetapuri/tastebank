@@ -14,12 +14,13 @@ class MasterTableViewController: UITableViewController {
     var db: Firestore!
     var tastesArray: [Tastes] = []
     let searchController = UISearchController(searchResultsController: nil)
-    
+    var user: User!
+    var handle: AuthStateDidChangeListenerHandle?
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        db = Firestore.firestore()
-        loadData()
-       
+        
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -27,8 +28,57 @@ class MasterTableViewController: UITableViewController {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
     
-    func loadData() {
-        db.collection("Users/spuri\\/Tastes").getDocuments() { (querySnapshot, err) in
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear (animated)
+        
+        handle = Auth.auth().addStateDidChangeListener { auth, user in
+            guard let user = user else { return }
+            self.user = user
+            
+//
+//            
+//            self.db = Firestore.firestore()
+//            self.loadData(user: user)
+//            
+        }
+        print("FOUND",user)
+
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        Auth.auth().removeStateDidChangeListener(handle!)
+        
+//        // 1
+//        let user = Auth.auth().currentUser!
+//        let onlineRef = Database.database().reference(withPath: "online/\(user.uid)")
+//
+//        // 2
+//        onlineRef.removeValue { (error, _) in
+//
+//            // 3
+//            if let error = error {
+//                print("Removing online failed: \(error)")
+//                return
+//            }
+//
+//            // 4
+//            do {
+//                try Auth.auth().signOut()
+//                self.dismiss(animated: true, completion: nil)
+//            } catch (let error) {
+//                print("Auth sign out failed: \(error)")
+//            }
+//        }
+        
+        
+    }
+    func loadData( user: User) {
+        if let name = user.email {
+            self.navigationItem.title = "Welcome \(name)"
+            print (" found!!!! \(name)")
+        }
+        
+        db.collection("Users/\(user)/Tastes").getDocuments() { (querySnapshot, err) in
             var tastes = [Tastes] ()
             if let err = err {
                 print ("Error in getting Tastes: \(err)")

@@ -10,9 +10,12 @@ import Firebase
 import GoogleSignIn
 import UIKit
 
-class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDelegate{
+class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDelegate, UITextFieldDelegate {
     
-
+    @IBOutlet weak var firstNameTextField: UITextField!
+    
+    @IBOutlet weak var lastNameTextField: UITextField!
+    
     @IBOutlet weak var signInBtn: styleButton!
     @IBOutlet weak var passwordField: StyleTextField!
     @IBOutlet weak var emailField: StyleTextField!
@@ -33,15 +36,56 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
         view.addSubview(googleButton)
         
         
-
-        
   }
-
-    @IBAction func emailSignUpBtnClicked(_ sender: Any) {
-        //validate fields
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear (animated)
+    //once user logged in, perform segue
+        Auth.auth().addStateDidChangeListener() { auth, user in
+    
+        if user != nil {
+            print("FOUNDDDDDDDDD \(user?.email)")
+            self.performSegue(withIdentifier: "login", sender: nil)
+    //                let homeViewController = self.storyboard?.instantiateViewController(withIdentifier: ConstantVal.Storyboard.homeViewController) as? MasterTableViewController
+    //                self.view.window?.rootViewController = homeViewController
+    //                self.view.window?.makeKeyAndVisible()
+    
+            self.passwordField.text = nil
+            self.emailField.text = nil
+            }
+        }
+    
+    }
+    
+    func isPasswordValid(_ password: String) -> Bool {
+        let passwordTest = NSPredicate(format: "SELF MATCHES %@", "^(?=.*[a-z])(?=.*[$@$#!%*?&])[A-Za-z\\d$@$#!%*?&]{8,}")
+        return passwordTest.evaluate(with: password)
+    }
+    
+    func validateFields (email: String?, password: String?) -> String? {
+        //check that all fields are filled in
+        if  emailField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" || passwordField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
+            return "Please fill in all fields"
+        }
         
-        let email = emailField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
-        let password = passwordField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+        let cleanedPassword = passwordField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        if (isPasswordValid(cleanedPassword) == false) {
+            //password isn't secure
+            return "please make sure your password is at least 8 characters, contains a special character and a number"
+        }
+        
+        return nil
+    }
+    @IBAction func signInButtonTapped(_ sender: Any) {
+        //validate fields
+        let error = validateFields(email: emailField.text, password: passwordField.text)
+        if error != nil {
+            showError(error!, errorLabel: errorLabel)
+        
+        } else {
+        
+            let email = emailField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+            let password = passwordField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
         
         //sign in user
         
@@ -53,13 +97,63 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
                 self.errorLabel.alpha = 1
             }
             else {
-                let homeViewController = self.storyboard?.instantiateViewController(withIdentifier: ConstantVal.Storyboard.homeViewController) as? MasterTableViewController
-                self.view.window?.rootViewController = homeViewController
-                self.view.window?.makeKeyAndVisible()
+                //transition to home view controller
+               self.performSegue(withIdentifier: "login", sender: nil)
+            }
+         }
+        }
+    }
+    
+    
+    @IBAction func SignUpButtonTapped(_ sender: UIButton) {
+        
+        let alert = UIAlertController(title: "Register",
+                                      message: "Register",
+                                      preferredStyle: .alert)
+        
+        let saveAction = UIAlertAction(title: "Save", style: .default) { _ in
+            
+            if (self.validateFields(email: alert.textFields![0].text, password: alert.textFields![1].text ) != nil) {
+                //set lable to show error
+            } else {
+                let error = DataService.ds.createFirestoreDBUser(withEmail: alert.textFields![0].text!, withPassword: alert.textFields![1].text!, errorLabel: self.errorLabel)
+                if (error != "") {
+                    //print out error
+                    self.errorLabel.text = error
+                    self.errorLabel.alpha = 1
+                    
+                }
             }
         }
-        
+            let cancelAction = UIAlertAction(title: "Cancel",
+                                             style: .cancel)
+            
+            alert.addTextField { textEmail in
+                textEmail.placeholder = "Enter your email"
+            }
+            
+            alert.addTextField { textPassword in
+                textPassword.isSecureTextEntry = true
+                textPassword.placeholder = "Enter your password"
+            }
+            
+            alert.addAction(saveAction)
+            alert.addAction(cancelAction)
+            
+            present(alert, animated: true, completion: nil)
+
     }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == emailField {
+            passwordField.becomeFirstResponder()
+        }
+        if textField == passwordField {
+            textField.resignFirstResponder()
+        }
+        return true
+    }
+    
     
     /*
     // MARK: - Navigation
@@ -85,6 +179,8 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
             if let error = error {
                 print("Login error: \(error.localizedDescription)")
                 return
+            } else {
+                //if no error add user to database
             }
         })
     }
