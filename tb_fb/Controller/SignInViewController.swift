@@ -10,7 +10,7 @@ import Firebase
 import GoogleSignIn
 import UIKit
 
-class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDelegate, UITextFieldDelegate {
+class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDelegate,  UITextFieldDelegate {
     
     @IBOutlet weak var firstNameTextField: UITextField!
     
@@ -30,6 +30,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
         
         GIDSignIn.sharedInstance().delegate = self
         GIDSignIn.sharedInstance().uiDelegate = self
+        //GIDSignIn.sharedInstance().signIn()
         
         let googleButton = GIDSignInButton()
         googleButton.frame = CGRect(x: 16, y: 116 + 66, width: view.frame.width - 32, height: 50)
@@ -103,6 +104,68 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
          }
         }
     }
+    //google sign in
+    
+    @IBAction func googleSignIn(sender: AnyObject) {
+        GIDSignIn.sharedInstance().signIn()
+    }
+    
+    
+    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
+        
+        if let error = error {
+            print(error.localizedDescription)
+            return
+        }
+        guard let authentication = user.authentication else { return }
+        let credential = GoogleAuthProvider.credential(withIDToken: (authentication.idToken)!, accessToken: (authentication.accessToken)!)
+        // When user is signed in
+        Auth.auth().signIn(with: credential, completion: { (user, error) in
+            if let error = error {
+                print("Login error: \(error.localizedDescription)")
+                return
+            } else {
+                //if no error add user to database if user does not already exist
+                
+                DB_BASE.document("Users/\(Auth.auth().currentUser!.uid)").getDocument() { (document, err) in
+                    if let err = err {
+                        print("Error verifying user in database \(err)")
+                    } else {
+                        if let document = document, !document.exists {
+                            //if user does not exist then create
+                            DB_BASE.collection("Users").addDocument(data: ["uid": Auth.auth().currentUser!.uid]) {(error) in
+                                if error != nil {
+                                    //show error message
+                                    showError("user name could not be saved in db", errorLabel: self.errorLabel)
+                                }
+                        }
+                    }
+                }
+                
+            }
+                
+                //after confirming user has db entry or adding db entry show new view controller
+                //once signed in , and database entry verified , present main view controller
+                self.performSegue(withIdentifier: "login", sender: nil)
+                    
+            
+        }
+        })
+    }
+    //    // Start Google OAuth2 Authentication
+    func sign(_ signIn: GIDSignIn?, present viewController: UIViewController?) {
+        
+        // Showing OAuth2 authentication window
+        if let aController = viewController {
+            present(aController, animated: true) {() -> Void in }
+        }
+    }
+    //    // After Google OAuth2 authentication
+    func sign(_ signIn: GIDSignIn?, dismiss viewController: UIViewController?) {
+        // Close OAuth2 authentication window
+        dismiss(animated: true) {() -> Void in }
+    }
+    
     
     
     @IBAction func SignUpButtonTapped(_ sender: UIButton) {
@@ -166,38 +229,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
      
     */
 
-    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
-    
-        if let error = error {
-            print(error.localizedDescription)
-            return
-        }
-        guard let authentication = user.authentication else { return }
-        let credential = GoogleAuthProvider.credential(withIDToken: (authentication.idToken)!, accessToken: (authentication.accessToken)!)
-        // When user is signed in
-        Auth.auth().signIn(with: credential, completion: { (user, error) in
-            if let error = error {
-                print("Login error: \(error.localizedDescription)")
-                return
-            } else {
-                //if no error add user to database
-            }
-        })
-    }
-    // Start Google OAuth2 Authentication
-    func sign(_ signIn: GIDSignIn?, present viewController: UIViewController?) {
-        
-        // Showing OAuth2 authentication window
-        if let aController = viewController {
-            present(aController, animated: true) {() -> Void in }
-        }
-    }
-    // After Google OAuth2 authentication
-    func sign(_ signIn: GIDSignIn?, dismiss viewController: UIViewController?) {
-        // Close OAuth2 authentication window
-        dismiss(animated: true) {() -> Void in }
-    }
-    
-    
+
     
 }
+

@@ -37,18 +37,67 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
                 print("user info")
                 print(user.uid, user.email, user.photoURL)
                 
-                DB_BASE.collection("Users/\(user.uid)/Tastes").getDocuments() { (querySnapshot, err) in
-                    if let err = err {
-                        print("Error getting documents: \(err)")
-                    } else {
-                        for document in querySnapshot!.documents {
-                            print("\(document.documentID) => \(document.data())")
-                        }
-                    }
-                }
+                loadData(user: self.user)
+//                DB_BASE.collection("Users/\(user.uid)/Tastes").getDocuments() { (querySnapshot, err) in
+//                    if let err = err {
+//                        print("Error getting documents: \(err)")
+//                    } else {
+//                        for document in querySnapshot!.documents {
+//                            print("\(document.documentID) => \(document.data())")
+//                        }
+//                    }
+//                }
             }
         }
         
+        func loadData( user: User) {
+            if let name = user.email {
+                self.navigationItem.title = "Welcome \(name)"
+                print (" found!!!! \(name)")
+            }
+            
+            DB_BASE.collection("Users/\(user.uid)/Tastes").getDocuments() { (querySnapshot, err) in
+                var tastes = [Tastes] ()
+                if let err = err {
+                    print ("Error in getting Tastes: \(err)")
+                    
+                } else {
+                    for document in querySnapshot!.documents {
+                        print ("query snapthop", document.data())
+                        let t = Tastes(dictionary: document.data())
+                        print("hi i am here \(String(describing: t)))")
+                        
+                        if (t != nil) {
+                            tastes.append(t!)
+                        }
+                        //print("hi i am here \(document.documentID) => \(document.data())")
+                        
+                    }
+                    print ("here is \(String(describing: tastes))")
+                    
+                    // if (tastes != nil) {
+                    
+                    //                let tastes1 = querySnapshot!.documents.compactMap { (document) -> Tastes? in
+                    //                    if let model = Tastes(dictionary: document.data()) {
+                    //                        return model
+                    //                    } else {
+                    //                        print("error parsing document: \(document.data())")
+                    //                        return nil
+                    //                    }
+                    //                }
+                    //                self.tastesArray = tastes1
+                    //                //self.documents = snapshot.documents
+                    self.tasteList = tastes
+                    //print (self.tastesArray)
+                    
+                    self.tableView.reloadData()
+                    //}
+                    
+                }
+                
+            }
+            
+        }
 //        ref.collection("Users/Tastes").getDocuments() {(querySnapshot, err) in
 //            if let err = err {
 //                print ("Error getting documents: \(err))
