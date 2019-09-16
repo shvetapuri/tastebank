@@ -46,9 +46,9 @@ struct Tastes {
 extension Tastes: DocumentSerializable {
     init?( dictionary: [String : Any]) {
         //guard let id = id as? String,
-        guard let name = dictionary["Name"] as? String,
-            let category = dictionary["Category"] as? String,
-            let rating = dictionary["Rating"] as? String,
+        guard let name = dictionary["name"] as? String,
+            let category = dictionary["category"] as? String,
+            let rating = dictionary["rating"] as? String,
         let restaurant = (dictionary["Restaurant"] != nil) ? dictionary["Restaurant"] as? String : "none",
         let vineyardName = (dictionary["vineyard name"] != nil) ? dictionary["vineyard name"] as? String : "none"
            // let date = dictionary["timestamp"] as? Timestamp else { return nil }
@@ -57,20 +57,19 @@ extension Tastes: DocumentSerializable {
         self.init(name: name, category: category, rating: rating, restaurant: restaurant, vineyardName: vineyardName)
     }
     
-    init? (snapshot: DataSnapshot) {
-        //guard let id = id as? String,
-        guard
-            let value = snapshot.value as? [String: AnyObject],
-            let name = value["Name"] as? String,
-            let category = value["Category"] as? String,
-            let rating = value["Rating"] as? String,
-            let restaurant = (value["Restaurant"] != nil) ? value["Restaurant"] as? String : "none",
-            let vineyardName = (value["vineyard name"] != nil) ? value["vineyard name"] as? String : "none"
-            // let date = dictionary["timestamp"] as? Timestamp else { return nil }
-            else { return nil}
-        
-        self.init(name: name, category: category, rating: rating, restaurant: restaurant, vineyardName: vineyardName)
-    }
+//    init? (snapshot: DataSnapshot) {
+//        //guard let id = id as? String,
+//        guard let value = snapshot.value as? [String: AnyObject],
+//            let name = value["Name"] as? String,
+//            let category = value["Category"] as? String,
+//            let rating = value["Rating"] as? String,
+//            let restaurant = (value["Restaurant"] != nil) ? value["Restaurant"] as? String : "none",
+//            let vineyardName = (value["vineyard name"] != nil) ? value["vineyard name"] as? String : "none"
+//            // let date = dictionary["timestamp"] as? Timestamp else { return nil }
+//            else { return nil}
+//
+//        self.init(name: name, category: category, rating: rating, restaurant: restaurant, vineyardName: vineyardName)
+//    }
 
     
 //    init?(dictionaryRestaurant: [String: Any] ) {

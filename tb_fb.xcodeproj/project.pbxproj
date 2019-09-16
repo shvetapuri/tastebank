@@ -156,6 +156,13 @@
 			path = Services;
 			sourceTree = "<group>";
 		};
+		E68A8480233026BC005A3FD6 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		E6C1790122862027000516D6 = {
 			isa = PBXGroup;
 			children = (
@@ -181,6 +188,7 @@
 		E6C1790C22862027000516D6 /* tb_fb */ = {
 			isa = PBXGroup;
 			children = (
+				E68A8480233026BC005A3FD6 /* Model */,
 				E68A847B2329676A005A3FD6 /* Services */,
 				E6CA2148232062FD003DB634 /* Controller */,
 				E6CA214123203BDD003DB634 /* View */,

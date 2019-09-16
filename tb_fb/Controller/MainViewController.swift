@@ -28,9 +28,13 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear (animated)
         
-        handle = Auth.auth().addStateDidChangeListener { (auth, user) in
-            // get current user by setting up listener
+//        handle = Auth.auth().addStateDidChangeListener { (auth, user) in
+//            // get current user by setting up listener
             let user = Auth.auth().currentUser
             if let user = user {
                 self.user = user
@@ -47,7 +51,8 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
 //                        }
 //                    }
 //                }
-            }
+        
+        }
         }
         
         func loadData( user: User) {
@@ -122,21 +127,29 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
 //            print(self.tasteList)
 //        })
         
-        
-        
-    }
+
+    
+    
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
     func tableView(_ tableView:UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return tasteList.count
         
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        
+        let taste = tasteList[indexPath.row]
+        if let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as? TableViewCell {
+            cell.configureCell(taste: taste)
+            return cell
+        } else {
+            return TableViewCell()
+        }
+        
     }
     @IBAction func signOutTapped(_ sender: Any) {
         //signout

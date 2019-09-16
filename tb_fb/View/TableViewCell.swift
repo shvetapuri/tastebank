@@ -12,9 +12,17 @@ class TableViewCell: UITableViewCell {
 
     @IBOutlet weak var name: UILabel!
     
+    var taste: Tastes!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+    }
+    
+    func configureCell(taste: Tastes) {
+        self.taste = taste
+        self.name.text = taste.name
+        
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
