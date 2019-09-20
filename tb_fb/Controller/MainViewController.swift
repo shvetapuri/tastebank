@@ -13,8 +13,14 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     @IBOutlet weak var tableView: UITableView!
     
+    @IBOutlet weak var topView: styleView!
     
-
+    @IBOutlet weak var categoriesView: UIView!
+    @IBOutlet weak var addView: UIView!
+    
+    
+    @IBOutlet weak var segmentedControl: UISegmentedControl!
+    
     @IBOutlet weak var signOutButton: UIButton!
     @IBOutlet weak var labelMisc: UILabel!
     
@@ -23,13 +29,38 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     var user: User!
     var handle: AuthStateDidChangeListenerHandle?
     
+    let searchController = UISearchController(searchResultsController: nil)
+    /// Secondary search results table view.
+    private var resultsTableController: ResultsTableController!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
+        
+        setViewBackgrounds()
+        
+        // Setup the Search Controller
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = true
+        searchController.searchBar.placeholder = "Search Tastes"
+        resultsTableController = ResultsTableController()
+        
+        resultsTableController.tableView.delegate = self
+        
+        if #available(iOS 11.0, *){
+            navigationItem.searchController = searchController
+        }
+        definesPresentationContext = true
     }
     
+    func setViewBackgrounds() {
+        //view.layer.contents = (resourceName: "webbg").cgImage  add: image Literal # to front
+
+        view.layer.contents = #imageLiteral(resourceName: "tastebank_background_640by960_newcolor").cgImage
+
+    }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear (animated)
         
@@ -52,10 +83,27 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
 //                    }
 //                }
         
-        }
+            }
         }
         
-        func loadData( user: User) {
+    @IBAction func segmentChanged(_ sender: Any) {
+        
+        switch segmentedControl.selectedSegmentIndex
+        {
+        case 0:
+            print("search tastes segment")
+            categoriesView.isHidden = false
+            addView.isHidden = true
+        case 1:
+            print("add tastes segment")
+            
+        default:
+            break
+        }
+        
+        
+    }
+    func loadData( user: User) {
             if let name = user.email {
                 self.navigationItem.title = "Welcome \(name)"
                 print (" found!!!! \(name)")
@@ -93,7 +141,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
                     //                self.tastesArray = tastes1
                     //                //self.documents = snapshot.documents
                     self.tasteList = tastes
-                    //print (self.tastesArray)
+                    
                     
                     self.tableView.reloadData()
                     //}
@@ -173,4 +221,12 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     */
 
+}
+
+
+extension MainViewController: UISearchResultsUpdating {
+    // MARK: - UISearchResultsUpdating Delegate
+    func updateSearchResults(for searchController: UISearchController) {
+        // TODO
+    }
 }

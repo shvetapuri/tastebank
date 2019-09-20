@@ -14,8 +14,11 @@
 		E68A847A232964EB005A3FD6 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68A8479232964EB005A3FD6 /* TableViewCell.swift */; };
 		E68A847D23296784005A3FD6 /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68A847C23296784005A3FD6 /* DataService.swift */; };
 		E68A847F23299355005A3FD6 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68A847E23299355005A3FD6 /* LoginViewController.swift */; };
+		E68A84872332A9E0005A3FD6 /* ResultsTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68A84862332A9E0005A3FD6 /* ResultsTableController.swift */; };
+		E68A848D2333E447005A3FD6 /* AddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68A848C2333E447005A3FD6 /* AddViewController.swift */; };
+		E68A848F2333E452005A3FD6 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68A848E2333E452005A3FD6 /* SearchViewController.swift */; };
 		E6C1790E22862027000516D6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6C1790D22862027000516D6 /* AppDelegate.swift */; };
-		E6C1791022862027000516D6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6C1790F22862027000516D6 /* ViewController.swift */; };
+		E6C1791022862027000516D6 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6C1790F22862027000516D6 /* MasterViewController.swift */; };
 		E6C1791322862027000516D6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E6C1791122862027000516D6 /* Main.storyboard */; };
 		E6C1791522862027000516D6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E6C1791422862027000516D6 /* Assets.xcassets */; };
 		E6C1791822862027000516D6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E6C1791622862027000516D6 /* LaunchScreen.storyboard */; };
@@ -67,9 +70,12 @@
 		E68A8479232964EB005A3FD6 /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
 		E68A847C23296784005A3FD6 /* DataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
 		E68A847E23299355005A3FD6 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		E68A84862332A9E0005A3FD6 /* ResultsTableController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsTableController.swift; sourceTree = "<group>"; };
+		E68A848C2333E447005A3FD6 /* AddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddViewController.swift; sourceTree = "<group>"; };
+		E68A848E2333E452005A3FD6 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		E6C1790A22862027000516D6 /* tb_fb.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tb_fb.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6C1790D22862027000516D6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		E6C1790F22862027000516D6 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		E6C1790F22862027000516D6 /* MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
 		E6C1791222862027000516D6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E6C1791422862027000516D6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E6C1791722862027000516D6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -195,7 +201,6 @@
 				E6CA213E23203B64003DB634 /* Util */,
 				E6C1790D22862027000516D6 /* AppDelegate.swift */,
 				E65E026822964F7300D1212C /* LocalCollection.swift */,
-				E6C1790F22862027000516D6 /* ViewController.swift */,
 				E6C1791122862027000516D6 /* Main.storyboard */,
 				E6C1793D228DD79E000516D6 /* MasterTableViewController.swift */,
 				E6C1793F228DE911000516D6 /* Tastes.swift */,
@@ -254,7 +259,11 @@
 				E6CA21492320636F003DB634 /* SignInViewController.swift */,
 				E6CCF1A82326C48E00F97069 /* SignUpViewController.swift */,
 				E68A8477232961A6005A3FD6 /* MainViewController.swift */,
+				E6C1790F22862027000516D6 /* MasterViewController.swift */,
+				E68A84862332A9E0005A3FD6 /* ResultsTableController.swift */,
 				E68A847E23299355005A3FD6 /* LoginViewController.swift */,
+				E68A848C2333E447005A3FD6 /* AddViewController.swift */,
+				E68A848E2333E452005A3FD6 /* SearchViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -500,15 +509,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				E6CA214A2320636F003DB634 /* SignInViewController.swift in Sources */,
+				E68A84872332A9E0005A3FD6 /* ResultsTableController.swift in Sources */,
+				E68A848D2333E447005A3FD6 /* AddViewController.swift in Sources */,
 				E6CA214323203D92003DB634 /* RoundButton.swift in Sources */,
 				E6CA2147232040B1003DB634 /* styleButton.swift in Sources */,
-				E6C1791022862027000516D6 /* ViewController.swift in Sources */,
+				E6C1791022862027000516D6 /* MasterViewController.swift in Sources */,
 				E68A847F23299355005A3FD6 /* LoginViewController.swift in Sources */,
 				E6C1793E228DD79E000516D6 /* MasterTableViewController.swift in Sources */,
 				E6C1790E22862027000516D6 /* AppDelegate.swift in Sources */,
 				E6CCF1A92326C48E00F97069 /* SignUpViewController.swift in Sources */,
 				E68A8478232961A6005A3FD6 /* MainViewController.swift in Sources */,
 				E65E026922964F7300D1212C /* LocalCollection.swift in Sources */,
+				E68A848F2333E452005A3FD6 /* SearchViewController.swift in Sources */,
 				E68A847D23296784005A3FD6 /* DataService.swift in Sources */,
 				E6CCF1B42328178400F97069 /* helperFunctions.swift in Sources */,
 				E6CA214023203B7F003DB634 /* Constants.swift in Sources */,
