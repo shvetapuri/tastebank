@@ -7,18 +7,144 @@
 //
 
 import UIKit
+import Firebase
 
-class SearchViewController: UIViewController {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-    }
+class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
 
-    /*
-    // MARK: - Navigation
+    let searchController = UISearchController(searchResultsController: nil)
+    
+    
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var searchBarView: UIView!
+    
+    
+    var tasteList: [Tastes] = []
+    var filteredTastes = [Tastes]()
+    var user: User!
+    var handle: AuthStateDidChangeListenerHandle?
+    
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        tableView.delegate = self
+        tableView.dataSource = self
+        
+        
+        // Setup the Search Controller
+
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.dimsBackgroundDuringPresentation = false
+        searchController.hidesNavigationBarDuringPresentation = false
+        searchController.searchBar.placeholder = "Search Tastes"
+        searchBarView.addSubview(searchController.searchBar)
+        definesPresentationContext = true
+
+    }
+    
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear (animated)
+        
+        let user = Auth.auth().currentUser
+        if let user = user {
+            self.user = user
+            print("user info")
+            print(user.uid, user.email, user.photoURL)
+            
+            loadData(user: self.user)
+            
+            
+        }
+    }
+
+    func loadData( user: User) {
+        if let name = user.email {
+            self.navigationItem.title = "Welcome \(name)"
+            print (" found!!!! \(name)")
+        }
+        
+        DB_BASE.collection("Users/\(user.uid)/Tastes").getDocuments() { (querySnapshot, err) in
+            var tastes = [Tastes] ()
+            if let err = err {
+                print ("Error in getting Tastes: \(err)")
+                
+            } else {
+                for document in querySnapshot!.documents {
+                    print ("query snapthop", document.data())
+                    let t = Tastes(dictionary: document.data())
+                    print("hi i am here \(String(describing: t)))")
+                    
+                    if (t != nil) {
+                        tastes.append(t!)
+                    }
+                    
+                }
+                print ("here is \(String(describing: tastes))")
+                               
+                self.tasteList = tastes
+                self.tableView.reloadData()
+   
+            }
+            
+        }
+        
+    }
+    
+    
+    func searchBarIsEmpty() -> Bool {
+        // Returns true if the text is empty or nil
+        return searchController.searchBar.text?.isEmpty ?? true
+    }
+    
+    func filterContentForSearchText(_ searchText: String, scope: String = "All") {
+        filteredTastes = tasteList.filter({( taste : Tastes) -> Bool in
+        return taste.name!.lowercased().contains(searchText.lowercased())
+        })
+        
+        tableView.reloadData()
+    }
+    
+    func isFiltering() -> Bool {
+        return searchController.isActive && !searchBarIsEmpty()
+    }
+
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView:UITableView, numberOfRowsInSection section: Int) -> Int {
+        if isFiltering() {
+            return filteredTastes.count
+        }
+        return tasteList.count
+        
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let taste: Tastes
+        
+        if isFiltering() {
+            taste = filteredTastes[indexPath.row]
+        } else {
+            taste = tasteList[indexPath.row]
+        }
+        
+        
+        
+        if let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as? TableViewCell {
+            cell.configureCell(taste: taste)
+            return cell
+        } else {
+            return TableViewCell()
+        }
+        
+    }
+    
+    
+    
+    /*    // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -27,4 +153,17 @@ class SearchViewController: UIViewController {
     }
     */
 
+}
+
+extension SearchViewController: UISearchResultsUpdating {
+    // MARK: - UISearchResultsUpdating Delegate
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        //filteredTastes = tasteList.filter({$0.prefix(searchText.count) == searchText})
+        filterContentForSearchText(searchController.searchBar.text!)
+
+    }
+    func updateSearchResults(for searchController: UISearchController) {
+        filterContentForSearchText(searchController.searchBar.text!)
+    }
 }

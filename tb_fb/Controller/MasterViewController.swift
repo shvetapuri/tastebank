@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class MasterViewController: UIViewController {
 
@@ -56,6 +57,18 @@ class MasterViewController: UIViewController {
     }
     
     
+    @IBAction func signOutTapped(_ sender: Any) {
+        //signout
+        let firebaseAuth = Auth.auth()
+        do {
+            try firebaseAuth.signOut()
+            self.dismiss(animated: true, completion: nil)
+            
+        } catch let signOutError as NSError {
+            print ("Error signing out: %@", signOutError)
+        }
+    }
+
     
     
 }
