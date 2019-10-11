@@ -66,4 +66,25 @@ class DataService {
     func createDBUserEntry () {
         
     }
+    
+    func createTasteEntryDB(TasteDict: [String: String]) {
+        //find user id
+        if let user = Auth.auth().currentUser {
+            
+        //create taste under that user
+        // Add a new document with a generated id.
+        var ref: DocumentReference? = nil
+            ref = DB_BASE.collection("Users/\(user.uid)/Tastes").addDocument(data: TasteDict as [String : Any]) { err in
+            if let err = err {
+                print("Error adding document: \(err)")
+            } else {
+                print("Document added with ID: \(ref!.documentID)")
+            }
+        }
+        
+        } else {
+            print ("Error, no user was found")
+        }
+    }
+
 }

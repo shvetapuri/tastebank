@@ -17,6 +17,7 @@
 		E68A84872332A9E0005A3FD6 /* ResultsTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68A84862332A9E0005A3FD6 /* ResultsTableController.swift */; };
 		E68A848D2333E447005A3FD6 /* AddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68A848C2333E447005A3FD6 /* AddViewController.swift */; };
 		E68A848F2333E452005A3FD6 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68A848E2333E452005A3FD6 /* SearchViewController.swift */; };
+		E6A0D0022343BA27001211F5 /* addView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6A0D0012343BA27001211F5 /* addView.swift */; };
 		E6C1790E22862027000516D6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6C1790D22862027000516D6 /* AppDelegate.swift */; };
 		E6C1791022862027000516D6 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6C1790F22862027000516D6 /* MasterViewController.swift */; };
 		E6C1791322862027000516D6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E6C1791122862027000516D6 /* Main.storyboard */; };
@@ -73,6 +74,7 @@
 		E68A84862332A9E0005A3FD6 /* ResultsTableController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsTableController.swift; sourceTree = "<group>"; };
 		E68A848C2333E447005A3FD6 /* AddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddViewController.swift; sourceTree = "<group>"; };
 		E68A848E2333E452005A3FD6 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		E6A0D0012343BA27001211F5 /* addView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = addView.swift; sourceTree = "<group>"; };
 		E6C1790A22862027000516D6 /* tb_fb.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tb_fb.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6C1790D22862027000516D6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E6C1790F22862027000516D6 /* MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
@@ -165,6 +167,7 @@
 		E68A8480233026BC005A3FD6 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				E6C1793F228DE911000516D6 /* Tastes.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -203,7 +206,6 @@
 				E65E026822964F7300D1212C /* LocalCollection.swift */,
 				E6C1791122862027000516D6 /* Main.storyboard */,
 				E6C1793D228DD79E000516D6 /* MasterTableViewController.swift */,
-				E6C1793F228DE911000516D6 /* Tastes.swift */,
 				E6C1791422862027000516D6 /* Assets.xcassets */,
 				E6C1791622862027000516D6 /* LaunchScreen.storyboard */,
 				E6C1791922862027000516D6 /* Info.plist */,
@@ -249,6 +251,7 @@
 				E6CA214423203F7D003DB634 /* StyleTextField.swift */,
 				E6CA2146232040B1003DB634 /* styleButton.swift */,
 				E68A8479232964EB005A3FD6 /* TableViewCell.swift */,
+				E6A0D0012343BA27001211F5 /* addView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -510,6 +513,7 @@
 			files = (
 				E6CA214A2320636F003DB634 /* SignInViewController.swift in Sources */,
 				E68A84872332A9E0005A3FD6 /* ResultsTableController.swift in Sources */,
+				E6A0D0022343BA27001211F5 /* addView.swift in Sources */,
 				E68A848D2333E447005A3FD6 /* AddViewController.swift in Sources */,
 				E6CA214323203D92003DB634 /* RoundButton.swift in Sources */,
 				E6CA2147232040B1003DB634 /* styleButton.swift in Sources */,

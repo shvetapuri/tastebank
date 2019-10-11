@@ -8,15 +8,82 @@
 
 import UIKit
 
-class AddViewController: UIViewController {
+class AddViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+
+    
+    @IBOutlet weak var text1: UITextField!
+    @IBOutlet weak var text2: UITextField!
+    @IBOutlet weak var text3: UITextField!
+    @IBOutlet weak var text4: UITextField!
+    var textFieldArray = [String]()
+    
+    
+    @IBOutlet weak var addButton: UIButton!
+    
+    @IBOutlet weak var pickerView: UIPickerView!
+    var pickerData: [String] = [String] ()
+    
+    @IBOutlet weak var addView: addView!
+    var category: String = "none"
+    var tasteObject = Tastes()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        pickerData = ["Dish", "Dessert", "Wine", "Coffee", "Beer", "Chocolate", "Cheese", "Other"]
+        pickerView.delegate = self
+        pickerView.dataSource = self
+        
+        //when first loaded show dish in pickerview
+        pickerView.selectRow(0, inComponent: 0, animated: true)
+        addView.show(tasteType: "Dish")
 
-        // Do any additional setup after loading the view.
     }
     
+    //Picker view
+    //number of columns
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return pickerData.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return pickerData[row]
+    }
+    
+    // picker view selection
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        // This method is triggered whenever the user makes a change to the picker selection.
+        
+        addView.show(tasteType: pickerData[row])
+        
+    }
+    
+    
+    
+    //add button action
+    
+    @IBAction func addButtonTapped(_ sender: Any) {
+        //build a dictionary out of all data in text fields
+        var dictOfTaste: [String: String] = [:]
+        
+        for i in 0...addView.usedlabelsArray.count-1 {
+            dictOfTaste[addView.usedlabelsArray[i].text!] = addView.usedTextFieldArray[i].text
+        }
+        dictOfTaste["Category"] = addView.tasteObject.category
 
+        
+        //save in database
+        DataService.ds.createTasteEntryDB(TasteDict: dictOfTaste)
+        
+        //load search view controller
+        segmented.selectedSegmentIndex = 0;
+
+        
+    }
+    
     /*
     // MARK: - Navigation
 

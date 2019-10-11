@@ -11,7 +11,9 @@ import Firebase
 
 class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-
+    @IBOutlet var categoryButtons: [UIButton]!
+    var categoryButtonTapped: Bool = false
+    
     let searchController = UISearchController(searchResultsController: nil)
     
     
@@ -21,6 +23,8 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     var tasteList: [Tastes] = []
     var filteredTastes = [Tastes]()
+    var filteredByCategory = [Tastes]()
+    
     var user: User!
     var handle: AuthStateDidChangeListenerHandle?
     
@@ -92,24 +96,53 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
     }
     
-    
+    //Search Bar
     func searchBarIsEmpty() -> Bool {
         // Returns true if the text is empty or nil
         return searchController.searchBar.text?.isEmpty ?? true
     }
-    
+    //filter by taste name
     func filterContentForSearchText(_ searchText: String, scope: String = "All") {
         filteredTastes = tasteList.filter({( taste : Tastes) -> Bool in
-        return taste.name!.lowercased().contains(searchText.lowercased())
+            //return (searchAllValuesInTaste(searchString: searchText, taste: taste))
+            return ((taste.dictionary).contains {(key, value) -> Bool in
+                value!.lowercased().contains(searchText.lowercased()) })
         })
-        
+        //taste.name!.lowercased().contains(searchText.lowercased()) || taste.category!.lowercased().contains(searchText.lowercased()) || taste.restaurant!.lowercased().contains(searchText.lowercased()) ||
+        //taste.vineyardName!.lowercased().contains(searchText.lowercased())
         tableView.reloadData()
     }
     
     func isFiltering() -> Bool {
         return searchController.isActive && !searchBarIsEmpty()
     }
-
+    
+    func searchAllValuesInTaste ( searchString: String, taste: Tastes) -> Bool {
+        for (_,value) in taste.dictionary {
+            if (value!.lowercased().contains(searchString.lowercased())) {
+                return true
+            }
+        }
+        return false
+    }
+    
+    //Collection of buttons
+    
+    @IBAction func categoryButtonsTapped(_ sender: UIButton) {
+        let btnTitle = sender.currentTitle!
+        if (btnTitle != "Show All") {
+            categoryButtonTapped = true
+            filteredByCategory = tasteList.filter({( taste: Tastes) -> Bool in
+                return (taste.category!.lowercased().contains(btnTitle.lowercased()))
+        })
+        } else {
+            categoryButtonTapped = false
+        }
+        print ("fbc starts \(filteredByCategory)")
+        tableView.reloadData()
+    }
+    
+    //Table view
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -117,6 +150,8 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     func tableView(_ tableView:UITableView, numberOfRowsInSection section: Int) -> Int {
         if isFiltering() {
             return filteredTastes.count
+        } else if (categoryButtonTapped) {
+            return filteredByCategory.count
         }
         return tasteList.count
         
@@ -127,6 +162,9 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         if isFiltering() {
             taste = filteredTastes[indexPath.row]
+        } else if (categoryButtonTapped) {
+            categoryButtonTapped = false
+            taste = filteredByCategory[indexPath.row]
         } else {
             taste = tasteList[indexPath.row]
         }

@@ -38,6 +38,7 @@ class MasterViewController: UIViewController {
             UIView.animate(withDuration: 0.5, animations: {
                // self.searchContainerView.alpha = 1
                 //self.addContainerView.alpha = 0
+                
                 self.searchContainerView.isHidden = false
                 self.addContainerView.isHidden = true
             })
