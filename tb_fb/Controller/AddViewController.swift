@@ -66,6 +66,11 @@ class AddViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDat
     //add button action
     
     @IBAction func addButtonTapped(_ sender: Any) {
+        
+        // !!!!check that there is a name and rating otherwise give error
+        
+        
+        
         //build a dictionary out of all data in text fields
         var dictOfTaste: [String: String] = [:]
         
@@ -78,12 +83,17 @@ class AddViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDat
         //save in database
         DataService.ds.createTasteEntryDB(TasteDict: dictOfTaste)
         
-        //load search view controller
-        segmented.selectedSegmentIndex = 0;
+        //go back to main controller
+        dismiss(animated: true, completion: nil)
 
         
     }
     
+    @IBAction func cancelTapped(_ sender: Any) {
+        //go back to main controller
+        dismiss(animated: true, completion: nil)
+        
+    }
     /*
     // MARK: - Navigation
 

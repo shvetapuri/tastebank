@@ -9,53 +9,50 @@
 import UIKit
 import Firebase
 
-class MasterViewController: UIViewController {
+class MasterViewController: UIViewController, UITableViewDelegate, UITableViewDataSource  {
 
-    @IBOutlet weak var segmentedControl: UISegmentedControl!
-
-    @IBOutlet weak var searchContainerView: UIView!
-    @IBOutlet weak var addContainerView: UIView!
+    @IBOutlet var categoryButtons: [UIButton]!
+    var categoryButtonTapped: Bool = false
+    
+    let searchController = UISearchController(searchResultsController: nil)
+    
+    
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var searchBarView: UIView!
+    
+    
+    var tasteList: [Tastes] = []
+    var filteredTastes = [Tastes]()
+    var filteredByCategory = [Tastes]()
+    
+    var user: User!
+    var handle: AuthStateDidChangeListenerHandle?
+    
+    
+    
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupSegmentedControl()
+        tableView.delegate = self
+        tableView.dataSource = self
+        
+        
+        // Setup the Search Controller
+        
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.dimsBackgroundDuringPresentation = false
+        searchController.hidesNavigationBarDuringPresentation = false
+        searchController.searchBar.placeholder = "Search Tastes"
+        searchBarView.addSubview(searchController.searchBar)
+        definesPresentationContext = true
     }
 
-    private func setupSegmentedControl(){
-        // Configure Segmented Control
-        segmentedControl.removeAllSegments()
-        segmentedControl.insertSegment(withTitle: "Search Tastes", at: 0, animated: false)
-        segmentedControl.insertSegment(withTitle: "Add Taste", at: 1, animated: false)
-        
-        
-        // Select First Segment
-        segmentedControl.selectedSegmentIndex = 0
-    }
     
-    @IBAction func segmentedControlTapped(_ sender: Any) {
-        if segmentedControl.selectedSegmentIndex == 0 {
-            UIView.animate(withDuration: 0.5, animations: {
-               // self.searchContainerView.alpha = 1
-                //self.addContainerView.alpha = 0
-                
-                self.searchContainerView.isHidden = false
-                self.addContainerView.isHidden = true
-            })
-            
-            //remove(asChildViewController: addViewController)
-          //  addVC(asChildViewController: searchViewContoller)
-        } else {
-            UIView.animate(withDuration: 0.5, animations: {
-                // self.searchContainerView.alpha = 1
-                //self.addContainerView.alpha = 0
-                self.searchContainerView.isHidden = true
-                self.addContainerView.isHidden = false
-            })
-        //    remove(asChildViewController: searchViewContoller)
-         //   addVC(asChildViewController: addViewController)
-        }
-    }
+    
     
     
     @IBAction func signOutTapped(_ sender: Any) {
@@ -63,6 +60,11 @@ class MasterViewController: UIViewController {
         let firebaseAuth = Auth.auth()
         do {
             try firebaseAuth.signOut()
+            
+            let homeViewController = storyboard?.instantiateViewController(withIdentifier: ConstantVal.Storyboard.homeViewController) as? SignInViewController
+            view.window?.rootViewController = homeViewController
+            view.window?.makeKeyAndVisible()
+            
             self.dismiss(animated: true, completion: nil)
             
         } catch let signOutError as NSError {
@@ -72,5 +74,160 @@ class MasterViewController: UIViewController {
 
     
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear (animated)
+        
+        let user = Auth.auth().currentUser
+        if let user = user {
+            self.user = user
+            print("user info")
+            print(user.uid, user.email, user.photoURL)
+            
+            loadData(user: self.user)
+            
+            
+        }
+    }
+    
+    func loadData( user: User) {
+        if let name = user.email {
+            self.navigationItem.title = "Welcome \(name)"
+            print (" found!!!! \(name)")
+        }
+        
+        DB_BASE.collection("Users/\(user.uid)/Tastes").getDocuments() { (querySnapshot, err) in
+            var tastes = [Tastes] ()
+            if let err = err {
+                print ("Error in getting Tastes: \(err)")
+                
+            } else {
+                for document in querySnapshot!.documents {
+                    print ("query snapthop", document.data())
+                    let t = Tastes(dictionary: document.data())
+                    print("hi i am here \(String(describing: t)))")
+                    
+                    if (t != nil) {
+                        tastes.append(t!)
+                    }
+                    
+                }
+                print ("here is \(String(describing: tastes))")
+                
+                self.tasteList = tastes
+                self.tableView.reloadData()
+                
+            }
+            
+        }
+        
+    }
+    
+    //Search Bar
+    func searchBarIsEmpty() -> Bool {
+        // Returns true if the text is empty or nil
+        return searchController.searchBar.text?.isEmpty ?? true
+    }
+    //filter by taste name
+    func filterContentForSearchText(_ searchText: String, scope: String = "All") {
+        filteredTastes = tasteList.filter({( taste : Tastes) -> Bool in
+            //return (searchAllValuesInTaste(searchString: searchText, taste: taste))
+            return ((taste.dictionary).contains {(key, value) -> Bool in
+                value!.lowercased().contains(searchText.lowercased()) })
+        })
+        //taste.name!.lowercased().contains(searchText.lowercased()) || taste.category!.lowercased().contains(searchText.lowercased()) || taste.restaurant!.lowercased().contains(searchText.lowercased()) ||
+        //taste.vineyardName!.lowercased().contains(searchText.lowercased())
+        tableView.reloadData()
+    }
+    
+    func isFiltering() -> Bool {
+        return searchController.isActive && !searchBarIsEmpty()
+    }
+    
+    func searchAllValuesInTaste ( searchString: String, taste: Tastes) -> Bool {
+        for (_,value) in taste.dictionary {
+            if (value!.lowercased().contains(searchString.lowercased())) {
+                return true
+            }
+        }
+        return false
+    }
+    
+    //Collection of buttons
+    
+    @IBAction func categoryButtonsTapped(_ sender: UIButton) {
+        let btnTitle = sender.currentTitle!
+        if (btnTitle != "Show All") {
+            categoryButtonTapped = true
+            filteredByCategory = tasteList.filter({( taste: Tastes) -> Bool in
+                return (taste.category!.lowercased().contains(btnTitle.lowercased()))
+            })
+        } else {
+            categoryButtonTapped = false
+        }
+        print ("fbc starts \(filteredByCategory)")
+        tableView.reloadData()
+    }
+    
+    //Table view
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView:UITableView, numberOfRowsInSection section: Int) -> Int {
+        if isFiltering() {
+            return filteredTastes.count
+        } else if (categoryButtonTapped) {
+            return filteredByCategory.count
+        }
+        return tasteList.count
+        
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let taste: Tastes
+        
+        if isFiltering() {
+            taste = filteredTastes[indexPath.row]
+        } else if (categoryButtonTapped) {
+            categoryButtonTapped = false
+            taste = filteredByCategory[indexPath.row]
+        } else {
+            taste = tasteList[indexPath.row]
+        }
+        
+        
+        
+        if let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as? TableViewCell {
+            cell.configureCell(taste: taste)
+            return cell
+        } else {
+            return TableViewCell()
+        }
+        
+    }
+    
+    
+    
+    /*    // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destination.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }
 
+extension MasterViewController: UISearchResultsUpdating {
+    // MARK: - UISearchResultsUpdating Delegate
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        //filteredTastes = tasteList.filter({$0.prefix(searchText.count) == searchText})
+        filterContentForSearchText(searchController.searchBar.text!)
+        
+    }
+    func updateSearchResults(for searchController: UISearchController) {
+        filterContentForSearchText(searchController.searchBar.text!)
+    }
+}

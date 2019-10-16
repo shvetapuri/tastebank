@@ -9,7 +9,8 @@
 import UIKit
 
 class addView: UIView {
-
+    @IBOutlet weak var l6: UILabel!
+    @IBOutlet weak var l5: UILabel!
     @IBOutlet weak var l4: UILabel!
     @IBOutlet weak var l3: UILabel!
     @IBOutlet weak var l2: UILabel!
@@ -18,10 +19,14 @@ class addView: UIView {
     var usedlabelsArray = [UILabel]()
     var availableLabels = [UILabel]()
     
+    
     @IBOutlet weak var text1: UITextField!
     @IBOutlet weak var text2: UITextField!
     @IBOutlet weak var text3: UITextField!
     @IBOutlet weak var text4: UITextField!
+    @IBOutlet weak var text5: UITextField!
+    @IBOutlet weak var text6: UITextField!
+
     var usedTextFieldArray = [UITextField]()
     var availableTextfieldArray = [UITextField]()
 
@@ -41,8 +46,8 @@ class addView: UIView {
         
     }
     func createUIarrays() {
-        availableLabels = [l1, l2, l3, l4]
-        availableTextfieldArray = [text1 , text2, text3, text4]
+        availableLabels = [l1, l2, l3, l4, l5, l6]
+        availableTextfieldArray = [text1 , text2, text3, text4, text5, text6]
     }
     func setUsedLabelArray (countOfNeededLabels: Int) {
         //hide all previously used labels and clear array

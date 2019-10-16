@@ -105,8 +105,9 @@ class SignUpViewController: UIViewController {
                                 else {
                                     // transition to the home screen
                                     
-                                   // self.transitionToHome()
+                                  //  self.transitionToHome()
                                     self.performSegue(withIdentifier: "loginFromSignUp", sender: nil)
+                                   
 
                                     }
                             }

@@ -10,9 +10,7 @@ import Foundation
 import Firebase
 
 struct Tastes {
-    
-    //var dishes: [Dish]
-    //var id: String?
+
     var name: String?
     var category: String?
     var rating: String?
@@ -21,6 +19,8 @@ struct Tastes {
     var brandName: String?
     var type: String?
     var comments: String?
+    var year: String?
+    var address: String?
     var dictionary: [String: String?] {
         return [
             "Name": name,
@@ -30,46 +30,30 @@ struct Tastes {
             "Vineyard name": vineyardName,
             "Brand name": brandName,
             "Type": type,
-            "Comments": comments
+            "Notes": comments,
+            "Year": year,
+            "Address": address
         ]
     }
     
-//    func returnLabels () -> [String] {
-//        return
-//    }
-//
     func returnLabels() -> [String] {
         switch category {
-        case "Dish":
-            return ["Name", "Restaurant", "Rating"]
+        case "Dish", "Dessert":
+            return ["Name", "Restaurant", "Address", "Rating", "Notes"]
         
-        case "Chocolate":
-            return ["Name", "Brand name", "Type", "Rating"]
+        case "Chocolate", "Cheese", "Coffee", "Beer":
+            return ["Name", "Brand name", "Type", "Rating", "Notes"]
+        
+        case "Wine":
+            return ["Name", "Vineyard name", "Year", "Type", "Rating", "Notes" ]
+        
+        case "Other":
+            return ["Name", "Brand name", "Type", "Rating", "Notes"]
+
         default:
             return []
         }
     }
-    
-    func setLabels(inputValues:[String: String]) {
-        
-    }
-//    var dishDict: [String: String?] {
-//        return ["Name": name, "Restaurant": restaurant, "Rating": rating]
-//    }
-//
-//    var chocDict: [String: String?] {
-//        return ["Name": name, "Brand Name": brandName, "Type": type, "Rating": rating]
-//    }
-   
-//    var dictionaryRestaurant: [String: Any] {
-//        return [
-//            "name": name as Any,
-//            "category": category as Any,
-//            "rating": rating as Any,
-//            "restaurant": restaurant as Any?,
-//            //"id": id as Any
-//        ]
-//    }
     
 }
 
@@ -81,17 +65,27 @@ extension Tastes: DocumentSerializable {
         guard let name = dictionary["Name"] as? String,
             let category = dictionary["Category"] as? String,
             let rating = dictionary["Rating"] as? String,
-        let restaurant = (dictionary["Restaurant"] != nil) ? dictionary["Restaurant"] as? String : "none",
-        let vineyardName = (dictionary["Vineyard name"] != nil) ? dictionary["Vineyard name"] as? String : "none",
-        let brandName = (dictionary["Brand name"] != nil) ? dictionary["Brand name"] as? String : "none",
-        let type = (dictionary["Type"] != nil) ? dictionary["Type"] as? String : "none",
-            let comments = (dictionary["Comments"] != nil) ? dictionary["Comments"] as? String : "none"
+            let address = (dictionary["Address"] != nil) ? dictionary["Address"] as? String : "none",
+            let restaurant = (dictionary["Restaurant"] != nil) ? dictionary["Restaurant"] as? String : "none",
+            let vineyardName = (dictionary["Vineyard name"] != nil) ? dictionary["Vineyard name"] as? String : "none",
+            let brandName = (dictionary["Brand name"] != nil) ? dictionary["Brand name"] as? String : "none",
+            let type = (dictionary["Type"] != nil) ? dictionary["Type"] as? String : "none",
+            let comments = (dictionary["Notes"] != nil) ? dictionary["Notes"] as? String : "none",
+            let year = (dictionary["Year"] != nil) ? dictionary["Year"] as? String : "none"
            // let date = dictionary["timestamp"] as? Timestamp else { return nil }
+        
         else {
             print("Error, Tastes struct was not created for this entry")
             return nil}
-    
-        self.init(name: name, category: category, rating: rating, restaurant: restaurant, vineyardName: vineyardName, brandName: brandName, type: type, comments: comments)
+//        let restaurant = "none"
+//        let vineyardName = "none"
+//        let brandName = "none"
+//        let type = "none"
+//        let comments = "none"
+//        let year = "none"
+       // let address = "none"
+        
+        self.init(name: name, category: category, rating: rating, restaurant: restaurant, vineyardName: vineyardName, brandName: brandName, type: type, comments: comments, year: year, address: address)
     }
     
 //    init? (snapshot: DataSnapshot) {
