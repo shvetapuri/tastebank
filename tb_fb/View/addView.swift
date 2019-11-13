@@ -30,7 +30,8 @@ class addView: UIView {
     var usedTextFieldArray = [UITextField]()
     var availableTextfieldArray = [UITextField]()
 
-    var tasteObject = Tastes()
+    //var tasteObject = Tastes()
+
 
     
     /*
@@ -42,8 +43,7 @@ class addView: UIView {
     */
     override func awakeFromNib() {
         super.awakeFromNib()
-        
-        
+
     }
     func createUIarrays() {
         availableLabels = [l1, l2, l3, l4, l5, l6]
@@ -58,6 +58,7 @@ class addView: UIView {
             }
             usedlabelsArray = []
         }
+        //adds needed labels to usedlabelsarray
         for i in 0...countOfNeededLabels-1 {
             usedlabelsArray.append(availableLabels[i])
         }
@@ -68,6 +69,7 @@ class addView: UIView {
         if(usedTextFieldArray.count != 0) {
             for i in 0...usedTextFieldArray.count-1 {
                 usedTextFieldArray[i].isHidden = true
+                usedTextFieldArray[i].isAccessibilityElement = true
             }
         }
         usedTextFieldArray = []
@@ -77,23 +79,14 @@ class addView: UIView {
         }
     }
     
-    func show(tasteType: String) {
-        tasteObject.category = tasteType
-        let tastesLabelArray = tasteObject.returnLabels()
+    func show(labels: [String]) {
+       // category = tasteType
+        let tastesLabelArray = labels
         createUIarrays()
         setUsedLabelArray(countOfNeededLabels:tastesLabelArray.count)
         setUsedTextFieldArray(countOfNeededTextFields:tastesLabelArray.count)
         
-//
-//        switch tasteType {
-//        case "Dish":
-//            //get correct labels for type of taste
-//            tastesLabelArray = Array(tasteObject.dishDict.keys)
-//        case "Chocolate":
-//            tastesLabelArray = Array(tasteObject.chocDict.keys)
-//        default:
-//            tastesLabelArray = Array(tasteObject.dishDict.keys)
-//        }
+        //go through each taste label in the array, and reveal the label and text field for that label, unhide label and text field, change label text to taste label obtained
         var i = 0
         for l in tastesLabelArray {
             if (i<tastesLabelArray.count) {
@@ -104,8 +97,6 @@ class addView: UIView {
             }
         }
         
-        //return category
-        //return tasteObject
     }
     
 }

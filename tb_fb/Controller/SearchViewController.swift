@@ -55,7 +55,7 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         if let user = user {
             self.user = user
             print("user info")
-            print(user.uid, user.email, user.photoURL)
+            print(user.uid, user.email!, user.photoURL!)
             
             loadData(user: self.user)
             
@@ -172,7 +172,7 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         
         if let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as? TableViewCell {
-            cell.configureCell(taste: taste)
+         //   cell.configureCell(taste: taste)
             return cell
         } else {
             return TableViewCell()

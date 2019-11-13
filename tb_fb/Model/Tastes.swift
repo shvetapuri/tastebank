@@ -9,7 +9,7 @@
 import Foundation
 import Firebase
 
-struct Tastes {
+struct Tastes : Equatable{
 
     var name: String?
     var category: String?
@@ -36,24 +36,7 @@ struct Tastes {
         ]
     }
     
-    func returnLabels() -> [String] {
-        switch category {
-        case "Dish", "Dessert":
-            return ["Name", "Restaurant", "Address", "Rating", "Notes"]
-        
-        case "Chocolate", "Cheese", "Coffee", "Beer":
-            return ["Name", "Brand name", "Type", "Rating", "Notes"]
-        
-        case "Wine":
-            return ["Name", "Vineyard name", "Year", "Type", "Rating", "Notes" ]
-        
-        case "Other":
-            return ["Name", "Brand name", "Type", "Rating", "Notes"]
-
-        default:
-            return []
-        }
-    }
+  
     
 }
 
@@ -77,16 +60,36 @@ extension Tastes: DocumentSerializable {
         else {
             print("Error, Tastes struct was not created for this entry")
             return nil}
-//        let restaurant = "none"
-//        let vineyardName = "none"
-//        let brandName = "none"
-//        let type = "none"
-//        let comments = "none"
-//        let year = "none"
-       // let address = "none"
         
         self.init(name: name, category: category, rating: rating, restaurant: restaurant, vineyardName: vineyardName, brandName: brandName, type: type, comments: comments, year: year, address: address)
     }
+    init (name: String, category: String, rating: String) {
+        self.name = name
+        self.category = category
+        self.rating = rating
+        self.restaurant = nil
+        self.vineyardName = nil
+        self.brandName = nil
+        self.type = nil
+        self.comments = nil
+        self.year = nil
+        self.address = nil
+        
+    }
+    init (name: String, category: String, rating: String, restaurant: String? = nil, vineyardName: String? = nil, brandName: String? = nil, type: String? = nil, comments: String? = nil, year: String? = nil, address: String? = nil ) {
+        
+         self.name = name
+         self.category = category
+         self.rating = rating
+         self.restaurant = restaurant
+         self.vineyardName = vineyardName
+         self.brandName = brandName
+         self.type = type
+         self.comments = comments
+         self.year = year
+         self.address = address
+    }
+    
     
 //    init? (snapshot: DataSnapshot) {
 //        //guard let id = id as? String,

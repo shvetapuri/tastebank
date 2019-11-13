@@ -192,7 +192,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         let taste = tasteList[indexPath.row]
         if let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as? TableViewCell {
-            cell.configureCell(taste: taste)
+        //    cell.configureCell(taste: taste)
             return cell
         } else {
             return TableViewCell()

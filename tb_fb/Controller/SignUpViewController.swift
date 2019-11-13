@@ -36,31 +36,41 @@ class SignUpViewController: UIViewController {
         super.viewDidLoad()
         //Hide the error label
         errorLabel.alpha = 0
-        
-        
     }
     
     func isPasswordValid(_ password: String) -> Bool {
-            let passwordTest = NSPredicate(format: "SELF MATCHES %@", "^(?=.*[a-z])(?=.*[$@$#!%*?&])[A-Za-z\\d$@$#!%*?&]{8,}")
+        let passwordTest = NSPredicate(format: "SELF MATCHES %@", "^(?=.*[a-z])(?=.*[$@$#!%*?&])[A-Za-z\\d$@$#!%*?&]{8,}")
         return passwordTest.evaluate(with: password)
     }
     
-    static func isEmailValid(_ email: String) -> Bool {
-        return true
+    func isEmailValid1(_ email: String) -> Bool {
+        let emailTest = NSPredicate(format: "SELF MATCHES %@", "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}")
+        return emailTest.evaluate(with: email)
     }
+    
     //if field is correct, this method returns nil, otherwise it returns the error message
     func validateFields() -> String? {
+        let cleanedPassword = passwordTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+        let cleanedEmail = emailTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines)
+        let cleanedFirstName = firstNameTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines)
+        let cleanedLastName = lastNameTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        
         //check that all fields are filled in
-        if firstNameTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" || lastNameTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" || emailTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" || passwordTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
-                return "Please fill in all fields"
+        if (cleanedFirstName == "" || cleanedLastName == "" || cleanedEmail == "" || cleanedPassword == "") {
+            return "Please fill in all fields"
         }
         
-        let cleanedPassword = passwordTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+        if (isEmailValid1(cleanedEmail!) == false) {
+            return "Please make sure your email format is correct"
+        }
         
         if (isPasswordValid(cleanedPassword) == false) {
             //password isn't secure
-            return "please make sure your password is at least 8 characters, contains a special character and a number"
+            return "Please make sure your password is at least 8 characters, contains a special character and a number"
         }
+        
+        
         
         return nil
     }
@@ -71,6 +81,7 @@ class SignUpViewController: UIViewController {
         if error != nil {
             //show error message
             showError(error!, errorLabel: errorLabel)
+            print("Helo i am in error")
         } else {
             //Create cleaned version of the data
             let firstName = firstNameTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -79,52 +90,51 @@ class SignUpViewController: UIViewController {
             let password = passwordTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
             
             //create the user
-            Auth.auth().createUser(withEmail: email, password: password) { (result, err) in
-                //check for errors
-                if err != nil {
-                    //there was an error creating user
-                    showError("Error creating user", errorLabel: self.errorLabel)
-                }
-                else {
-                    //User was created successfully, now store first and last name
-                    let db = Firestore.firestore() //return firestore obj
-                    
-                    db.collection("Users").addDocument(data: ["firstname":firstName, "lastname": lastName, "uid": result!.user.uid]) {(error) in
-                        if error != nil {
-                            //show error message
-                            showError("user name could not be saved in db", errorLabel: self.errorLabel)
-                        } else {
-                            //sign in and transition to home
-                            Auth.auth().signIn(withEmail: email, password: password) {
-                                (result, error) in
-                                if error != nil {
-                                    //couldn't sign in
-                                    self.errorLabel.text = error!.localizedDescription
-                                    self.errorLabel.alpha = 1
-                                }
-                                else {
+            let errorFromCreatingUser = DataService.ds.createFirestoreDBUser(email: email, password: password, firstName: firstName, lastName: lastName, errorLabel: errorLabel)
+            
+            if(errorFromCreatingUser != "") {
+                //print error
+                showError(errorFromCreatingUser, errorLabel: errorLabel)
+            } else {
+//                    //sign in and transition to home
+//                            Auth.auth().signIn(withEmail: email, password: password) {
+//                                (result, error) in
+//                                if error != nil {
+//                                    //couldn't sign in
+//                                    self.errorLabel.text = error!.localizedDescription
+//                                    self.errorLabel.alpha = 1
+//                                }
+//                                else {
                                     // transition to the home screen
                                     
-                                  //  self.transitionToHome()
-                                    self.performSegue(withIdentifier: "loginFromSignUp", sender: nil)
-                                   
+                                    //self.transitionToHome()
+                                    //self.performSegue(withIdentifier: "loginFromSignUp", sender: nil)
+                                    self.dismiss(animated: true, completion: nil)
 
                                     }
-                            }
+                            //}
                         }
                 
-                    }
+       // }
             
-                }
-            }
-    
-        }
     }
+
+    @IBAction func cancelButtonTapped(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+
+    }
+    
+
     
     func transitionToHome() {
-        
-        let homeViewController = storyboard?.instantiateViewController(withIdentifier: ConstantVal.Storyboard.homeViewController) as? MasterTableViewController
-        view.window?.rootViewController = homeViewController
-        view.window?.makeKeyAndVisible()
+//
+//        let homeViewController = self.storyboard?.instantiateViewController(withIdentifier: "MasterViewController") as? MasterTableViewController
+//       // view.window?.rootViewController = homeViewController
+//        var topMostVC = UIApplication.shared.keyWindow?.rootViewController
+//        //topMostVC?.presentationController ho
+//
+//        view.window?.makeKeyAndVisible()
     }
+    
+    
 }

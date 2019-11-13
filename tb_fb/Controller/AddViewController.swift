@@ -11,21 +11,15 @@ import UIKit
 class AddViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
 
     
-    @IBOutlet weak var text1: UITextField!
-    @IBOutlet weak var text2: UITextField!
-    @IBOutlet weak var text3: UITextField!
-    @IBOutlet weak var text4: UITextField!
-    var textFieldArray = [String]()
-    
-    
     @IBOutlet weak var addButton: UIButton!
     
     @IBOutlet weak var pickerView: UIPickerView!
     var pickerData: [String] = [String] ()
     
     @IBOutlet weak var addView: addView!
-    var category: String = "none"
-    var tasteObject = Tastes()
+    
+    var tastesManager: TastesManager?
+    var category: String = "Dish"
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,8 +29,12 @@ class AddViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDat
         
         //when first loaded show dish in pickerview
         pickerView.selectRow(0, inComponent: 0, animated: true)
-        addView.show(tasteType: "Dish")
-
+        let labels = tastesManager?.returnLabels(category: category)
+        addView.show( labels: labels!)
+        
+        //tap will dismiss text field keyboard
+        let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing))
+        view.addGestureRecognizer(tap)
     }
     
     //Picker view
@@ -56,8 +54,8 @@ class AddViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDat
     // picker view selection
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         // This method is triggered whenever the user makes a change to the picker selection.
-        
-        addView.show(tasteType: pickerData[row])
+        category = pickerData[row]
+        addView.show(labels: (tastesManager?.returnLabels(category: category))!)
         
     }
     
@@ -70,18 +68,27 @@ class AddViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDat
         // !!!!check that there is a name and rating otherwise give error
         
         
-        
+        //
         //build a dictionary out of all data in text fields
         var dictOfTaste: [String: String] = [:]
         
         for i in 0...addView.usedlabelsArray.count-1 {
             dictOfTaste[addView.usedlabelsArray[i].text!] = addView.usedTextFieldArray[i].text
         }
-        dictOfTaste["Category"] = addView.tasteObject.category
-
+        dictOfTaste["Category"] = category
         
+        //create a taste object
+        guard let t = Tastes(dictionary: dictOfTaste)
+        else {
+            print("error creating taste entry")
+            return
+        }
+        
+        //save in tastesManager
+        tastesManager?.addTasteToDB(TasteObj: t)
+            
         //save in database
-        DataService.ds.createTasteEntryDB(TasteDict: dictOfTaste)
+        //DataService.ds.createTasteEntryDB(TasteDict: dictOfTaste)
         
         //go back to main controller
         dismiss(animated: true, completion: nil)

@@ -21,6 +21,8 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
     @IBOutlet weak var emailField: StyleTextField!
     
     @IBOutlet weak var errorLabel: UILabel!
+
+    var googleSignIn: GIDSignInButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,12 +32,25 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
         
         GIDSignIn.sharedInstance().delegate = self
         GIDSignIn.sharedInstance().uiDelegate = self
+        
         //GIDSignIn.sharedInstance().signIn()
         
-        let googleButton = GIDSignInButton()
-        googleButton.frame = CGRect(x: 16, y: 116 + 66, width: view.frame.width - 32, height: 50)
-        view.addSubview(googleButton)
+      //  GIDSignIn.sharedInstance().presentingViewController = self
+
+        // Automatically sign in the user.
+      //has   GIDSignIn.sharedInstance()?.restorePreviousSignIn()
+
+//
+//        let googleButton = GIDSignInButton()
+//        googleButton.frame = CGRect(x: 0, y: 180, width: view.frame.width - 32, height: 50)
+//        view.addSubview(googleButton)
+//
         
+        googleSignIn = GIDSignInButton()
+        googleSignIn.frame = CGRect(x: 15, y: 625, width: view.frame.width - 32, height: 50)
+        //googleSignIn.center = view.center
+        
+        view.addSubview(googleSignIn)
         
   }
     override func viewWillAppear(_ animated: Bool) {
@@ -89,7 +104,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
             let password = passwordField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
         
         //sign in user
-        
+            
         Auth.auth().signIn(withEmail: email, password: password) {
             (result, error) in
             if error != nil {
@@ -120,7 +135,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
         guard let authentication = user.authentication else { return }
         let credential = GoogleAuthProvider.credential(withIDToken: (authentication.idToken)!, accessToken: (authentication.accessToken)!)
         // When user is signed in
-        Auth.auth().signIn(with: credential, completion: { (user, error) in
+        Auth.auth().signIn(with: credential, completion: { (result, error) in
             if let error = error {
                 print("Login error: \(error.localizedDescription)")
                 return
@@ -133,10 +148,14 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
                     } else {
                         if let document = document, !document.exists {
                             //if user does not exist then create
-                            DB_BASE.collection("Users").addDocument(data: ["uid": Auth.auth().currentUser!.uid]) {(error) in
+                            DB_BASE.collection("Users").document(Auth.auth().currentUser!.uid).setData([
+                                "firstname": user.profile.name,
+                                "lastname" : user.profile.familyName,
+                                "uid": Auth.auth().currentUser!.uid
+                                ]) {(error) in
                                 if error != nil {
                                     //show error message
-                                    showError("user name could not be saved in db", errorLabel: self.errorLabel)
+                                    showError("google user information could not be saved in db", errorLabel: self.errorLabel)
                                 }
                         }
                     }
@@ -168,44 +187,44 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
     
     
     
-    @IBAction func SignUpButtonTapped(_ sender: UIButton) {
-        
-        let alert = UIAlertController(title: "Register",
-                                      message: "Register",
-                                      preferredStyle: .alert)
-        
-        let saveAction = UIAlertAction(title: "Save", style: .default) { _ in
-            
-            if (self.validateFields(email: alert.textFields![0].text, password: alert.textFields![1].text ) != nil) {
-                //set lable to show error
-            } else {
-                let error = DataService.ds.createFirestoreDBUser(withEmail: alert.textFields![0].text!, withPassword: alert.textFields![1].text!, errorLabel: self.errorLabel)
-                if (error != "") {
-                    //print out error
-                    self.errorLabel.text = error
-                    self.errorLabel.alpha = 1
-                    
-                }
-            }
-        }
-            let cancelAction = UIAlertAction(title: "Cancel",
-                                             style: .cancel)
-            
-            alert.addTextField { textEmail in
-                textEmail.placeholder = "Enter your email"
-            }
-            
-            alert.addTextField { textPassword in
-                textPassword.isSecureTextEntry = true
-                textPassword.placeholder = "Enter your password"
-            }
-            
-            alert.addAction(saveAction)
-            alert.addAction(cancelAction)
-            
-            present(alert, animated: true, completion: nil)
-
-    }
+//    @IBAction func SignUpButtonTapped(_ sender: UIButton) {
+//
+//        let alert = UIAlertController(title: "Register",
+//                                      message: "Register",
+//                                      preferredStyle: .alert)
+//
+//        let saveAction = UIAlertAction(title: "Save", style: .default) { _ in
+//
+//            if (self.validateFields(email: alert.textFields![0].text, password: alert.textFields![1].text ) != nil) {
+//                //set lable to show error
+//            } else {
+//                let error = DataService.ds.createFirestoreDBUser(email: alert.textFields![0].text!, password: alert.textFields![1].text!, firstName: "test", lastName: "test", errorLabel: self.errorLabel)
+//                if (error != "") {
+//                    //print out error
+//                    self.errorLabel.text = error
+//                    self.errorLabel.alpha = 1
+//
+//                }
+//            }
+//        }
+//            let cancelAction = UIAlertAction(title: "Cancel",
+//                                             style: .cancel)
+//
+//            alert.addTextField { textEmail in
+//                textEmail.placeholder = "Enter your email"
+//            }
+//
+//            alert.addTextField { textPassword in
+//                textPassword.isSecureTextEntry = true
+//                textPassword.placeholder = "Enter your password"
+//            }
+//
+//            alert.addAction(saveAction)
+//            alert.addAction(cancelAction)
+//
+//            present(alert, animated: true, completion: nil)
+//
+//    }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == emailField {
