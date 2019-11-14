@@ -9,12 +9,13 @@
 import UIKit
 import Firebase
 
-class MasterViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class MasterViewController: UIViewController  {
    
     
 
-    @IBOutlet var categoryButtons: [UIButton]!
     var categoryButtonTapped: Bool = false
+    
+    @IBOutlet weak var showAll: UIButton!
     
     let searchController = UISearchController(searchResultsController: nil)
     
@@ -83,6 +84,12 @@ class MasterViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }
     }
     
+    @IBAction func showAllButtonTapped(_ sender: Any) {
+        categoryButtonTapped = false
+        tableView.reloadData()
+    }
+    
+    
     @objc func reloadTBV(notification: NSNotification) {
         tableView.reloadData()
     }
@@ -104,10 +111,6 @@ class MasterViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
 
     
-    
-
-
-    
     //Search Bar
     func searchBarIsEmpty() -> Bool {
         // Returns true if the text is empty or nil
@@ -115,11 +118,8 @@ class MasterViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     //filter by taste name
     func filterContentForSearchText(_ searchText: String, scope: String = "All") {
-        filteredTastes = tasteList.filter({( taste : Tastes) -> Bool in
-            //return (searchAllValuesInTaste(searchString: searchText, taste: taste))
-            return ((taste.dictionary).contains {(key, value) -> Bool in
-                value!.lowercased().contains(searchText.lowercased()) })
-        })
+        filteredTastes = tastesManager.filterTastesByKeyword(searchText: searchText)
+        
         //taste.name!.lowercased().contains(searchText.lowercased()) || taste.category!.lowercased().contains(searchText.lowercased()) || taste.restaurant!.lowercased().contains(searchText.lowercased()) ||
         //taste.vineyardName!.lowercased().contains(searchText.lowercased())
         tableView.reloadData()
@@ -129,78 +129,32 @@ class MasterViewController: UIViewController, UITableViewDelegate, UITableViewDa
         return searchController.isActive && !searchBarIsEmpty()
     }
     
-    func searchAllValuesInTaste ( searchString: String, taste: Tastes) -> Bool {
-        for (_,value) in taste.dictionary {
-            if (value!.lowercased().contains(searchString.lowercased())) {
-                return true
-            }
-        }
-        return false
-    }
+//    func searchAllValuesInTaste ( searchString: String, taste: Tastes) -> Bool {
+//        for (_,value) in taste.dictionary {
+//            if (value!.lowercased().contains(searchString.lowercased())) {
+//                return true
+//            }
+//        }
+//        return false
+//    }
     
     //Collection of buttons
     
-    @IBAction func categoryButtonsTapped(_ sender: UIButton) {
-        let btnTitle = sender.currentTitle!
-        if (btnTitle != "Show All") {
-            categoryButtonTapped = true
-            filteredByCategory = tasteList.filter({( taste: Tastes) -> Bool in
-                return (taste.category!.lowercased().contains(btnTitle.lowercased()))
-            })
-        } else {
-            categoryButtonTapped = false
-        }
-        print ("fbc starts \(filteredByCategory)")
-        tableView.reloadData()
-    }
+//    @IBAction func categoryButtonsTapped(_ sender: UIButton) {
+//        let btnTitle = sender.currentTitle!
+//        if (btnTitle != "Show All") {
+//            categoryButtonTapped = true
+//            filteredByCategory = tasteList.filter({( taste: Tastes) -> Bool in
+//                return (taste.category!.lowercased().contains(btnTitle.lowercased()))
+//            })
+//        } else {
+//            categoryButtonTapped = false
+//        }
+//        print ("fbc starts \(filteredByCategory)")
+//        tableView.reloadData()
+//    }
     
-    
-    //Table view
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-    
-    func tableView(_ tableView:UITableView, numberOfRowsInSection section: Int) -> Int {
-        if isFiltering() {
-            return filteredTastes.count
-        } else if (categoryButtonTapped) {
-            return filteredByCategory.count
-        }
-       // return tasteList.count
-        return tastesManager.tastesCount
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 160
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let taste: Tastes
-        
-        if isFiltering() {
-            taste = filteredTastes[indexPath.row]
-        } else if (categoryButtonTapped) {
-            categoryButtonTapped = false
-            taste = filteredByCategory[indexPath.row]
-        } else {
-           // taste = tasteList[indexPath.row]
-            taste = tastesManager.tastesArray[indexPath.row]
-            
-        }
-        
-        if let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as? TableViewCell {
-            cell.configureCell(taste: taste, tastesManager: tastesManager)
-            
-            
-            return cell
-        } else {
-            return TableViewCell()
-        }
-        
-    }
-    
-    
-    
+
         // MARK: - Navigation
      
      // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -230,6 +184,52 @@ extension MasterViewController: UISearchResultsUpdating {
     }
 }
 
+extension MasterViewController: UITableViewDelegate, UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView:UITableView, numberOfRowsInSection section: Int) -> Int {
+        if isFiltering() {
+            return filteredTastes.count
+        } else if (categoryButtonTapped) {
+            return filteredByCategory.count
+        }
+        // return tasteList.count
+        return tastesManager.tastesCount
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 160
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let taste: Tastes
+        
+        if isFiltering() {
+            taste = filteredTastes[indexPath.row]
+        } else if (categoryButtonTapped) {
+            categoryButtonTapped = false
+            taste = filteredByCategory[indexPath.row]
+        } else {
+            // taste = tasteList[indexPath.row]
+            taste = tastesManager.tastesArray[indexPath.row]
+            
+        }
+        
+        if let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as? TableViewCell {
+            cell.configureCell(taste: taste, tastesManager: tastesManager)
+            
+            
+            return cell
+        } else {
+            return TableViewCell()
+        }
+        
+    }
+    
+
+}
 extension MasterViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
     
@@ -244,14 +244,22 @@ extension MasterViewController: UICollectionViewDataSource, UICollectionViewDele
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         var cell : CollectionViewCell
         cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionCell", for: indexPath) as! CollectionViewCell
+        //cell.collectionCellButton.setTitle(tastesManager.returnAllCategories()[indexPath.row], for: .normal)
         
+            cell.collectionCellLabel.text = tastesManager.returnAllCategories()[indexPath.row]
         cell.configureCollectionCell(tastesManager.returnAllCategories()[indexPath.row])
+        
         
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
+        let category =  tastesManager.returnAllCategories()[indexPath.row]
+    
+        categoryButtonTapped = true
+        filteredByCategory = tastesManager.filterTastesByCategory(category: category )
+            print ("I am in didselect, here is cat \(category), filteredBycat \(filteredByCategory)")
+        tableView.reloadData()
     }
     
     //flow layout

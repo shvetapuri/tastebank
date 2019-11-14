@@ -85,13 +85,19 @@ class TastesManager {
     func filterTastesByCategory(category: String) -> [Tastes] {
         var filteredTastes = [Tastes]()
         filteredTastes = tastesArray.filter({( taste: Tastes) -> Bool in
-            return (taste.category!.lowercased().contains(category.lowercased()))
+            return (taste.category!.contains(category))
         })
         return filteredTastes
     }
     
-//    func filterTastesByKeyword() -> [Tastes] {
-//
-//    }
+    func filterTastesByKeyword(searchText: String) -> [Tastes] {
+        var filteredTastes = [Tastes]()
+        filteredTastes = tastesArray.filter({( taste : Tastes) -> Bool in
+            //return (searchAllValuesInTaste(searchString: searchText, taste: taste))
+            return ((taste.dictionary).contains {(key, value) -> Bool in
+                value!.lowercased().contains(searchText.lowercased()) })
+        })
+        return filteredTastes
+    }
 }
 
