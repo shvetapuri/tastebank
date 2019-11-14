@@ -1,0 +1,6 @@
+framework module Pods_tb_fb_tb_fbTests {
+  umbrella header "Pods-tb_fb-tb_fbTests-umbrella.h"
+
+  export *
+  module * { export * }
+}

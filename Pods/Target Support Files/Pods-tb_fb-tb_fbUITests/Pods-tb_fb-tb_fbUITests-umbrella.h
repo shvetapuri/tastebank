@@ -11,6 +11,6 @@
 #endif
 
 
-FOUNDATION_EXPORT double Pods_tb_fbTestsVersionNumber;
-FOUNDATION_EXPORT const unsigned char Pods_tb_fbTestsVersionString[];
+FOUNDATION_EXPORT double Pods_tb_fb_tb_fbUITestsVersionNumber;
+FOUNDATION_EXPORT const unsigned char Pods_tb_fb_tb_fbUITestsVersionString[];
 

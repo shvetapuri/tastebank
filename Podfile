@@ -16,12 +16,12 @@ target 'tb_fb' do
   pod 'FirebaseUI/Google'
  
   target 'tb_fbTests' do
-    inherit! :search_paths
+    inherit! :complete
     # Pods for testing
   end
 
   target 'tb_fbUITests' do
-    inherit! :search_paths
+    inherit! :complete
     # Pods for testing
   end
 

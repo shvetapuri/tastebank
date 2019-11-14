@@ -21,7 +21,7 @@ class tb_fbUITests: XCTestCase {
 
         // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
     }
-
+    
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
@@ -29,6 +29,18 @@ class tb_fbUITests: XCTestCase {
     func testExample() {
         // Use recording to get started writing UI tests.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
+        
+        let app = XCUIApplication()
+        app.navigationBars["Welcome test1@test1.com"].buttons["Add"].tap()
+        app.textFields["nameTF"].tap()
+        app.textFields["nameTF"].typeText("Some new value")
+        app.tap()
+        //app.toolbars.buttons["Done"].tap()
+        app.buttons["Add Taste"].tap()
+       
+     
+        
+        
     }
 
 }
