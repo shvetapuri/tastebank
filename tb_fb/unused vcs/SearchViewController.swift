@@ -36,13 +36,19 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         
         // Setup the Search Controller
-
+        searchController.delegate = self as? UISearchControllerDelegate
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.dimsBackgroundDuringPresentation = false
         searchController.hidesNavigationBarDuringPresentation = false
         searchController.searchBar.placeholder = "Search Tastes"
+        searchController.searchBar.tintColor = UIColor.clear
+        searchController.searchBar.backgroundColor = UIColor.clear
+        searchController.searchBar.searchBarStyle = .minimal
+        searchController.searchBar.barTintColor = UIColor.clear
         searchBarView.addSubview(searchController.searchBar)
+        
+    
         definesPresentationContext = true
 
     }
@@ -158,21 +164,21 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let taste: Tastes
-        
-        if isFiltering() {
-            taste = filteredTastes[indexPath.row]
-        } else if (categoryButtonTapped) {
-            categoryButtonTapped = false
-            taste = filteredByCategory[indexPath.row]
-        } else {
-            taste = tasteList[indexPath.row]
-        }
+//        var taste: Tastes
+//        
+//        if isFiltering() {
+//            taste = filteredTastes[indexPath.row]
+//        } else if (categoryButtonTapped) {
+//            categoryButtonTapped = false
+//            taste = filteredByCategory[indexPath.row]
+//        } else {
+//            taste = tasteList[indexPath.row]
+//        }
         
         
         
         if let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as? TableViewCell {
-         //   cell.configureCell(taste: taste)
+           // cell.configureCell(taste: taste)
             return cell
         } else {
             return TableViewCell()

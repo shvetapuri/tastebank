@@ -172,6 +172,17 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		E62C53C523958C9A00825160 /* unused vcs */ = {
+			isa = PBXGroup;
+			children = (
+				E68A8477232961A6005A3FD6 /* MainViewController.swift */,
+				E68A84862332A9E0005A3FD6 /* ResultsTableController.swift */,
+				E68A848E2333E452005A3FD6 /* SearchViewController.swift */,
+				E68A847E23299355005A3FD6 /* LoginViewController.swift */,
+			);
+			path = "unused vcs";
+			sourceTree = "<group>";
+		};
 		E68A847B2329676A005A3FD6 /* Services */ = {
 			isa = PBXGroup;
 			children = (
@@ -228,6 +239,7 @@
 				E6C1791922862027000516D6 /* Info.plist */,
 				E6C1793B228DC2C0000516D6 /* GoogleService-Info.plist */,
 				E6CCF1B1232813B700F97069 /* File.swift */,
+				E62C53C523958C9A00825160 /* unused vcs */,
 			);
 			path = tb_fb;
 			sourceTree = "<group>";
@@ -285,12 +297,8 @@
 			children = (
 				E6CA21492320636F003DB634 /* SignInViewController.swift */,
 				E6CCF1A82326C48E00F97069 /* SignUpViewController.swift */,
-				E68A8477232961A6005A3FD6 /* MainViewController.swift */,
 				E6C1790F22862027000516D6 /* MasterViewController.swift */,
-				E68A84862332A9E0005A3FD6 /* ResultsTableController.swift */,
-				E68A847E23299355005A3FD6 /* LoginViewController.swift */,
 				E68A848C2333E447005A3FD6 /* AddViewController.swift */,
-				E68A848E2333E452005A3FD6 /* SearchViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";

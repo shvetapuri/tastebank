@@ -70,7 +70,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             if let user = user {
                 self.user = user
                 print("user info")
-                print(user.uid, user.email, user.photoURL)
+               // print(user.uid, user.email, user.photoURL)
                 
                 loadData(user: self.user)
 //                DB_BASE.collection("Users/\(user.uid)/Tastes").getDocuments() { (querySnapshot, err) in
@@ -190,7 +190,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let taste = tasteList[indexPath.row]
+        //let taste = tasteList[indexPath.row]
         if let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as? TableViewCell {
         //    cell.configureCell(taste: taste)
             return cell

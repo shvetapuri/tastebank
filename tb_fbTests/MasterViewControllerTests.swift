@@ -34,6 +34,10 @@ class MasterViewControllerTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
+    //search bar
+    
+    
+    //table view test
     func test_TableViewIsNotNilAfterViewDidLoad() {
         
       
@@ -66,7 +70,6 @@ class MasterViewControllerTests: XCTestCase {
         XCTAssertEqual(tableView.numberOfRows(inSection:0),2)
 
 
-        
     }
 
     func test_CellForRow_ReturnsCustomTableViewCell() {
@@ -119,6 +122,17 @@ class MasterViewControllerTests: XCTestCase {
 //
 //        XCTAssertTrue(cell.configCellGotCalled)
 //    }
+    
+    //test collection view
+    
+    func test_collectionView_CVIsNotNilAfterViewDidLoad() {
+        XCTAssertNotNil(sut.collectionView)
+    }
+    
+    func test_collectionView_Shui(   ) {
+        XCTAssertNotNil(sut)
+    }
+
     func testPerformanceExample() {
         // This is an example of a performance test case.
         self.measure {

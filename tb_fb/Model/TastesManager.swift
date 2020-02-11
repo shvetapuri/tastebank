@@ -14,18 +14,27 @@ class TastesManager {
     
     var tastesCount: Int {return tastesArray.count}
     var tastesArray: [Tastes] = []
-    
+    var tb_delegate: loadDataDelegate?
+
     func addTaste(Taste: Tastes ) {
         if !checkDuplicate(taste: Taste) {
             tastesArray.append(Taste)
+           
         }
         
     }
     
-    func addTasteToDB(TasteObj: Tastes) {
-        if !checkDuplicate(taste: TasteObj) {
+    func addTasteToDB(TasteObj: Tastes, BypassCheckFlag: Bool) -> String{
+        if (!checkDuplicate(taste: TasteObj) || BypassCheckFlag) {
             tastesArray.append(TasteObj)
+           // if ((TasteObj.image) != nil) {
+                //
+           // }
             DataService.ds.createTasteEntryDB(TasteDict: TasteObj)
+            return "success"
+        } else {
+            
+            return "duplicate"
         }
 
     }
@@ -34,9 +43,11 @@ class TastesManager {
 
         DataService.ds.loadDBTastes{[weak self] (tastesArr: [Tastes]) in
                 self?.tastesArray = tastesArr
-               
+            
+            //delegate
+            self?.tb_delegate?.dataWasLoaded()
             //notify the master view controller to reload table view
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "load"), object: nil)
+            //    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "load"), object: nil)
 
         }
         
@@ -101,3 +112,6 @@ class TastesManager {
     }
 }
 
+protocol loadDataDelegate {
+    func dataWasLoaded()
+}

@@ -15,6 +15,7 @@ class TableViewCellTests: XCTestCase {
     var tableView: UITableView!
     let dataSource = FakeDataSource()
     var cell: TableViewCell!
+    let tasteManagerMock = TastesManager()
     
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -26,12 +27,12 @@ class TableViewCellTests: XCTestCase {
         
         //triggers call to view did load
         viewController.loadViewIfNeeded()
-        viewController.tastesManager = TastesManager()
+        //viewController.tastesManager = TastesManager()
         
         tableView = viewController.tableView
         tableView.dataSource = dataSource
         
-        cell = tableView.dequeueReusableCell(withIdentifier: "cell",  for: IndexPath(row: 0, section: 0)) as! TableViewCell
+        cell = tableView.dequeueReusableCell(withIdentifier: "cell",  for: IndexPath(row: 0, section: 0)) as? TableViewCell
     }
     
 
@@ -39,31 +40,16 @@ class TableViewCellTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func test_HasNameLabel() {
-        
-         XCTAssertTrue(cell.name.isDescendant(of: cell.contentView))
-
-    }
-
-    func test_HasRatingLabel() {
-        
-        
-        XCTAssertTrue(cell.ratingLabel.isDescendant(of: cell.contentView))
-    }
-
     
-    func test_ConfigureCell_SetsName() {
-        cell.configureCell(taste: Tastes(name: "foo", category: "cat", rating: "3"))
+    func test_ConfigureCell_ConfirmCreatedLabelsEqualNeededLabels() {
+        cell.configureCell(taste: Tastes(name: "foo", category: "Dish", rating: "3"), tastesManager: tasteManagerMock)
         
-        XCTAssertEqual(cell.name.text, "foo")
+       
+        
+        XCTAssertEqual( cell.vStackView.subviews.count, tasteManagerMock.returnLabels(category: "Dish").count*2)
         
     }
     
-    func test_ConfigureCell_SetsRating() {
-        cell.configureCell(taste: Tastes(name: "foo", category: "cat", rating: "3"))
-        XCTAssertEqual(cell.ratingLabel.text, "3")
-
-    }
 
     
     func testPerformanceExample() {
@@ -80,8 +66,6 @@ extension TableViewCellTests {
         
         func tableView(_ tableView: UITableView,
                        numberOfRowsInSection section: Int) -> Int {
-            
-            
             return 1
         }
         
@@ -90,9 +74,10 @@ extension TableViewCellTests {
         func tableView(_ tableView: UITableView,
                        cellForRowAt indexPath: IndexPath)
             -> UITableViewCell {
-                
-                
                 return UITableViewCell()
         }
     }
+    
+
 }
+

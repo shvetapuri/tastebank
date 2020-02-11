@@ -107,10 +107,11 @@ class DataService {
         //find user id
         if let user = Auth.auth().currentUser {
             
+            
         //create taste under that user
         // Add a new document with a generated id.
         var ref: DocumentReference? = nil
-            ref = DB_BASE.collection("Users/\(user.uid)/Tastes").addDocument(data: TasteDict.dictionary as [String : Any]) { err in
+            ref = DB_BASE.collection("Users/\(user.uid)/Tastes").addDocument(data: TasteDict.dictionaryImage as [String : Any]) { err in
             if let err = err {
                 print("Error adding document: \(err)")
             } else {
@@ -137,7 +138,9 @@ class DataService {
                 } else {
                     for document in querySnapshot!.documents {
                         print ("query snapthop", document.data())
+                    
                         let t = Tastes(dictionary: document.data())
+                        
                         print("hi i am turning snapshot into struct \(String(describing: t)))")
                     
                         if (t != nil) {

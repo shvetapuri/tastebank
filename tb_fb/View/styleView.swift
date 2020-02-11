@@ -25,10 +25,28 @@ class styleView: UIView {
         layer.shadowOpacity = 0.8
         layer.shadowRadius = 5.0
         layer.shadowOffset = CGSize(width:1.0, height: 1.0)
+        
+    
+       // layer.insertSublayer(gradient(frame:self.bounds), at: 0)
+
+        
+ 
+        
+        
         //layer.contentsScale =  UIView.ContentMode.scaleAspectFill
         //layer.contents = #imageLiteral(resourceName:"waffles").cgImage
         
 
+    }
+    
+    func gradient(frame:CGRect) -> CAGradientLayer {
+        let layer = CAGradientLayer()
+        layer.frame = frame
+        layer.startPoint = CGPoint(x: 0, y: 0.5)
+        layer.endPoint = CGPoint(x: 1, y: 0.5)
+        layer.colors = [
+            UIColor.white.cgColor,UIColor.gray.cgColor]
+        return layer
     }
 
 }

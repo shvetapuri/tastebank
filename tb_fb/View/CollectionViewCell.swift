@@ -11,9 +11,8 @@ import UIKit
 class CollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var collectionCellLabel: UILabel!
-    @IBOutlet weak var collectionCellButton: UIButton!
     
     func configureCollectionCell(_ category: String) {
-    //   collectionCellButton.titleLabel?.text = category
+            collectionCellLabel.text = category
     }
 }

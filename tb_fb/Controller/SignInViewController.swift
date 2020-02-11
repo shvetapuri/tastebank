@@ -4,7 +4,7 @@
 //
 //  Created by Shveta Puri on 9/4/19.
 //  Copyright © 2019 Shveta Puri. All rights reserved.
-//https://medium.com/@KentaKodashima/ios-custom-google-sign-in-button-652041031b1d
+
 import Firebase
 
 import GoogleSignIn
@@ -47,7 +47,8 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
 //
         
         googleSignIn = GIDSignInButton()
-        googleSignIn.frame = CGRect(x: 15, y: 625, width: view.frame.width - 32, height: 50)
+        googleSignIn.frame = CGRect(x: 35, y: 620, width: view.frame.width - 64, height: 70)
+       // googleSignIn.frame = CGRect(x: 15, y: 625, width: view.frame.width - 32, height: 50)
         //googleSignIn.center = view.center
         
         view.addSubview(googleSignIn)
@@ -59,7 +60,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
         Auth.auth().addStateDidChangeListener() { auth, user in
     
         if user != nil {
-            print("FOUNDDDDDDDDD \(user?.email)")
+            
             self.performSegue(withIdentifier: "login", sender: nil)
     //                let homeViewController = self.storyboard?.instantiateViewController(withIdentifier: ConstantVal.Storyboard.homeViewController) as? MasterTableViewController
     //                self.view.window?.rootViewController = homeViewController

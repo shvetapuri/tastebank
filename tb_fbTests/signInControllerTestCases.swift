@@ -16,7 +16,7 @@ class signInControllerTestCases: XCTestCase {
     
     
     func test_signIn_Firebase () {
-        let signInAnswered = expectation(description: "sign in to firebase")
+      //  let signInAnswered = expectation(description: "sign in to firebase")
         
         
     }

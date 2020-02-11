@@ -9,6 +9,7 @@
 import UIKit
 
 class addView: UIView {
+  
     @IBOutlet weak var l6: UILabel!
     @IBOutlet weak var l5: UILabel!
     @IBOutlet weak var l4: UILabel!
@@ -26,10 +27,15 @@ class addView: UIView {
     @IBOutlet weak var text4: UITextField!
     @IBOutlet weak var text5: UITextField!
     @IBOutlet weak var text6: UITextField!
+    
+
+    @IBOutlet weak var addAnotherDishBtn: UIButton!
 
     var usedTextFieldArray = [UITextField]()
     var availableTextfieldArray = [UITextField]()
 
+    var image: UIImage?
+    
     //var tasteObject = Tastes()
 
 
@@ -48,6 +54,7 @@ class addView: UIView {
     func createUIarrays() {
         availableLabels = [l1, l2, l3, l4, l5, l6]
         availableTextfieldArray = [text1 , text2, text3, text4, text5, text6]
+        
     }
     func setUsedLabelArray (countOfNeededLabels: Int) {
         //hide all previously used labels and clear array
@@ -63,6 +70,7 @@ class addView: UIView {
             usedlabelsArray.append(availableLabels[i])
         }
     }
+    
     
     func setUsedTextFieldArray (countOfNeededTextFields: Int) {
         //hide all previously used text fields and clear array
@@ -96,6 +104,16 @@ class addView: UIView {
                 i = i + 1
             }
         }
+        
+//        //check if category is restaurant, if it is allow user to add more
+//        if (tastesLabelArray.contains("Restaurant")) {
+//            //if it is a restaurant, show button to allow user to add other dishes for restaurant
+//            addAnotherDishBtn.isHidden = false;
+//            
+//        } else {
+//            addAnotherDishBtn.isHidden = true;
+//
+//        }
         
     }
     

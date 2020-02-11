@@ -70,11 +70,11 @@ class TastesManagerTests: XCTestCase {
         
         let returnedTaste2 = sut.getTaste(at: 1)
 
-        XCTAssertEqual(returnedTaste2, addedTaste)
+        XCTAssertEqual(returnedTaste2, addedTaste2)
         
         let returnedTaste3 = sut.getTaste(at: 2)
 
-        XCTAssertEqual(returnedTaste3, addedTaste)
+        XCTAssertEqual(returnedTaste3, addedTaste3)
 
         
     }

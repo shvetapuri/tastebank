@@ -9,17 +9,15 @@
 import UIKit
 import Firebase
 
-class MasterViewController: UIViewController  {
+class MasterViewController: UIViewController , loadDataDelegate {
    
-    
-
     var categoryButtonTapped: Bool = false
     
     @IBOutlet weak var showAll: UIButton!
     
     let searchController = UISearchController(searchResultsController: nil)
     
-    
+
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var searchBarView: UIView!
@@ -33,12 +31,6 @@ class MasterViewController: UIViewController  {
     var user: User!
     var handle: AuthStateDidChangeListenerHandle?
     
-    let sectionInsets = UIEdgeInsets(top: 1.0,
-                                     left: 1.0,
-                                     bottom: 1.0,
-                                     right: 1.0)
-    
- //   static let notificationName = Notification.Name("notificationReloadTBV")
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,6 +40,8 @@ class MasterViewController: UIViewController  {
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 600
 
+        tastesManager.tb_delegate = self
+        
         collectionView.delegate = self
         collectionView.dataSource = self
         
@@ -57,6 +51,11 @@ class MasterViewController: UIViewController  {
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.dimsBackgroundDuringPresentation = false
         searchController.hidesNavigationBarDuringPresentation = false
+        searchController.searchBar.tintColor = UIColor.black
+       // searchController.searchBar.backgroundColor = UIColor.clear
+        searchController.searchBar.searchBarStyle = .minimal
+       // searchController.searchBar.barTintColor = UIColor.clear
+        
         searchController.searchBar.placeholder = "Search Tastes"
         searchBarView.addSubview(searchController.searchBar)
         definesPresentationContext = true
@@ -65,17 +64,17 @@ class MasterViewController: UIViewController  {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear (animated)
         
+        //set up observer for table reload requests
+     //   NotificationCenter.default.addObserver(self, selector: #selector(reloadTBV), name: NSNotification.Name(rawValue: "load"), object: nil)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(reloadTBV), name: NSNotification.Name(rawValue: "load"), object: nil)
-
+        //Get current user
         let user = Auth.auth().currentUser
         if let user = user {
             self.user = user
             print("user info")
             print(user.uid, user.email as Any, user.photoURL as Any)
             
-            
-            self.navigationItem.title = "Welcome \(String(describing: user.email))"
+            self.navigationItem.title = "Welcome \(String(describing: user.displayName))"
             
             //load data from firebase
             tastesManager.loadTastesFromDBToTastesArr()
@@ -84,15 +83,20 @@ class MasterViewController: UIViewController  {
         }
     }
     
+    func dataWasLoaded() {
+        tableView.reloadData()
+        
+    }
     @IBAction func showAllButtonTapped(_ sender: Any) {
         categoryButtonTapped = false
         tableView.reloadData()
     }
     
     
-    @objc func reloadTBV(notification: NSNotification) {
-        tableView.reloadData()
-    }
+//    @objc func reloadTBV(notification: NSNotification) {
+//        tableView.reloadData()
+//    }
+    
     @IBAction func signOutTapped(_ sender: Any) {
         //signout
         let firebaseAuth = Auth.auth()
@@ -116,43 +120,15 @@ class MasterViewController: UIViewController  {
         // Returns true if the text is empty or nil
         return searchController.searchBar.text?.isEmpty ?? true
     }
-    //filter by taste name
+    //filter by tastes by keyword
     func filterContentForSearchText(_ searchText: String, scope: String = "All") {
         filteredTastes = tastesManager.filterTastesByKeyword(searchText: searchText)
-        
-        //taste.name!.lowercased().contains(searchText.lowercased()) || taste.category!.lowercased().contains(searchText.lowercased()) || taste.restaurant!.lowercased().contains(searchText.lowercased()) ||
-        //taste.vineyardName!.lowercased().contains(searchText.lowercased())
         tableView.reloadData()
     }
     
     func isFiltering() -> Bool {
         return searchController.isActive && !searchBarIsEmpty()
     }
-    
-//    func searchAllValuesInTaste ( searchString: String, taste: Tastes) -> Bool {
-//        for (_,value) in taste.dictionary {
-//            if (value!.lowercased().contains(searchString.lowercased())) {
-//                return true
-//            }
-//        }
-//        return false
-//    }
-    
-    //Collection of buttons
-    
-//    @IBAction func categoryButtonsTapped(_ sender: UIButton) {
-//        let btnTitle = sender.currentTitle!
-//        if (btnTitle != "Show All") {
-//            categoryButtonTapped = true
-//            filteredByCategory = tasteList.filter({( taste: Tastes) -> Bool in
-//                return (taste.category!.lowercased().contains(btnTitle.lowercased()))
-//            })
-//        } else {
-//            categoryButtonTapped = false
-//        }
-//        print ("fbc starts \(filteredByCategory)")
-//        tableView.reloadData()
-//    }
     
 
         // MARK: - Navigation
@@ -171,7 +147,8 @@ class MasterViewController: UIViewController  {
     
 }
 
-extension MasterViewController: UISearchResultsUpdating {
+
+extension MasterViewController: UISearchResultsUpdating, UISearchBarDelegate {
     // MARK: - UISearchResultsUpdating Delegate
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
@@ -181,6 +158,9 @@ extension MasterViewController: UISearchResultsUpdating {
     }
     func updateSearchResults(for searchController: UISearchController) {
         filterContentForSearchText(searchController.searchBar.text!)
+    }
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        tableView.reloadData()
     }
 }
 
@@ -209,8 +189,9 @@ extension MasterViewController: UITableViewDelegate, UITableViewDataSource {
         if isFiltering() {
             taste = filteredTastes[indexPath.row]
         } else if (categoryButtonTapped) {
-            categoryButtonTapped = false
+            //categoryButtonTapped = false
             taste = filteredByCategory[indexPath.row]
+
         } else {
             // taste = tasteList[indexPath.row]
             taste = tastesManager.tastesArray[indexPath.row]
@@ -244,49 +225,19 @@ extension MasterViewController: UICollectionViewDataSource, UICollectionViewDele
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         var cell : CollectionViewCell
         cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionCell", for: indexPath) as! CollectionViewCell
-        //cell.collectionCellButton.setTitle(tastesManager.returnAllCategories()[indexPath.row], for: .normal)
         
-            cell.collectionCellLabel.text = tastesManager.returnAllCategories()[indexPath.row]
         cell.configureCollectionCell(tastesManager.returnAllCategories()[indexPath.row])
-        
         
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
         let category =  tastesManager.returnAllCategories()[indexPath.row]
     
         categoryButtonTapped = true
         filteredByCategory = tastesManager.filterTastesByCategory(category: category )
-            print ("I am in didselect, here is cat \(category), filteredBycat \(filteredByCategory)")
         tableView.reloadData()
     }
     
-    //flow layout
-    
-//    func collectionView(_ collectionView: UICollectionView,
-//                        layout collectionViewLayout: UICollectionViewLayout,
-//                        sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        //2
-//        let paddingSpace = sectionInsets.left * (3 + 1)
-//        let availableWidth = view.frame.width - paddingSpace
-//        let widthPerItem = availableWidth / 3
-//
-//        return CGSize(width: widthPerItem, height: widthPerItem)
-//    }
-    
-    //3
-//    func collectionView(_ collectionView: UICollectionView,
-//                        layout collectionViewLayout: UICollectionViewLayout,
-//                        insetForSectionAt section: Int) -> UIEdgeInsets {
-//        return sectionInsets
-//    }
-//
-//    // 4
-//    func collectionView(_ collectionView: UICollectionView,
-//                        layout collectionViewLayout: UICollectionViewLayout,
-//                        minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-//        return sectionInsets.left
-//    }
-//
 }
