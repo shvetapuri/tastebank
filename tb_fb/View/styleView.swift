@@ -21,7 +21,7 @@ class styleView: UIView {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        layer.shadowColor = UIColor(red: SHADOW_GRAY, green: SHADOW_GRAY, blue: SHADOW_GRAY, alpha: 0.6 ).cgColor
+        layer.shadowColor = UIColor(red: SHADOW_GRAY, green: SHADOW_GRAY, blue: SHADOW_GRAY, alpha: 0.3 ).cgColor
         layer.shadowOpacity = 0.8
         layer.shadowRadius = 5.0
         layer.shadowOffset = CGSize(width:1.0, height: 1.0)
@@ -45,7 +45,7 @@ class styleView: UIView {
         layer.startPoint = CGPoint(x: 0, y: 0.5)
         layer.endPoint = CGPoint(x: 1, y: 0.5)
         layer.colors = [
-            UIColor.white.cgColor,UIColor.gray.cgColor]
+            UIColor.white.cgColor,UIColor.white]
         return layer
     }
 

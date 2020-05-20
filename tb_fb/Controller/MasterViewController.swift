@@ -18,15 +18,19 @@ class MasterViewController: UIViewController , loadDataDelegate {
     let searchController = UISearchController(searchResultsController: nil)
     
 
+    ///weak var delegate:updateRating?
+
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var searchBarView: UIView!
-    
+
     var tastesManager = TastesManager()
     
     var tasteList: [Tastes] = []
     var filteredTastes = [Tastes]()
     var filteredByCategory = [Tastes]()
+    
+    @IBOutlet weak var ratingViewInt: ratingView!
     
     var user: User!
     var handle: AuthStateDidChangeListenerHandle?
@@ -47,18 +51,7 @@ class MasterViewController: UIViewController , loadDataDelegate {
         
         // Setup the Search Controller
         
-        searchController.searchResultsUpdater = self
-        searchController.obscuresBackgroundDuringPresentation = false
-        searchController.dimsBackgroundDuringPresentation = false
-        searchController.hidesNavigationBarDuringPresentation = false
-        searchController.searchBar.tintColor = UIColor.black
-       // searchController.searchBar.backgroundColor = UIColor.clear
-        searchController.searchBar.searchBarStyle = .minimal
-       // searchController.searchBar.barTintColor = UIColor.clear
-        
-        searchController.searchBar.placeholder = "Search Tastes"
-        searchBarView.addSubview(searchController.searchBar)
-        definesPresentationContext = true
+        setupSearchBar()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -137,10 +130,12 @@ class MasterViewController: UIViewController , loadDataDelegate {
      override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
      // Get the new view controller using segue.destination.
      // Pass the selected object to the new view controller.
-        if segue.destination is AddViewController
+        if segue.identifier == "showAddVC"
         {
-            let vc = segue.destination as? AddViewController
-            vc?.tastesManager = self.tastesManager
+            let nav_vc = segue.destination as? UINavigationController
+            let add_vc = nav_vc?.topViewController as? addViewTableViewController
+            add_vc?.tastesManager = self.tastesManager
+            
         }
      }
  
@@ -151,6 +146,28 @@ class MasterViewController: UIViewController , loadDataDelegate {
 extension MasterViewController: UISearchResultsUpdating, UISearchBarDelegate {
     // MARK: - UISearchResultsUpdating Delegate
     
+    func setupSearchBar() {
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.dimsBackgroundDuringPresentation = false
+        searchController.hidesNavigationBarDuringPresentation = false
+        searchController.searchBar.tintColor = UIColor.black
+        // searchController.searchBar.backgroundColor = UIColor.clear
+        searchController.searchBar.searchBarStyle = .minimal
+        // searchController.searchBar.barTintColor = UIColor.clear
+        
+        
+        searchController.searchBar.placeholder = "Search Tastes"
+        
+        //   let frame = CGRect(x: 0, y: 0, width: 100, height: 64)
+        //   searchController.searchBar.frame = frame
+        
+        //    searchBarView.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
+        
+        searchBarView.addSubview(searchController.searchBar)
+        definesPresentationContext = true
+        
+    }
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         //filteredTastes = tasteList.filter({$0.prefix(searchText.count) == searchText})
         filterContentForSearchText(searchController.searchBar.text!)
@@ -165,6 +182,8 @@ extension MasterViewController: UISearchResultsUpdating, UISearchBarDelegate {
 }
 
 extension MasterViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -180,9 +199,9 @@ extension MasterViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 160
+        return 212
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let taste: Tastes
         
@@ -198,16 +217,33 @@ extension MasterViewController: UITableViewDelegate, UITableViewDataSource {
             
         }
         
-        if let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as? TableViewCell {
-            cell.configureCell(taste: taste, tastesManager: tastesManager)
+        if (taste.image != nil) {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "cell_w_image") as! TableViewCell_WithImage
+            let rv = cell.viewWithTag(123) as! ratingView
+            cell.configureCell(taste: taste, tastesManager: tastesManager, ratingView: rv)
+            //delegate?.createStars(rating: "5")
+
+            tableView.beginUpdates()
+            tableView.setNeedsDisplay()
+            tableView.endUpdates()
+            return cell
+            
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! TableViewCell
+            let rv = cell.viewWithTag(124) as! ratingView
+
+            cell.configureCell(taste: taste, tastesManager: tastesManager, ratingView: rv)
+            
+            tableView.beginUpdates()
+            tableView.setNeedsDisplay()
+            tableView.endUpdates()
             
             
             return cell
-        } else {
-            return TableViewCell()
+        }
         }
         
-    }
+    
     
 
 }
@@ -219,7 +255,7 @@ extension MasterViewController: UICollectionViewDataSource, UICollectionViewDele
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 2
+        return 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

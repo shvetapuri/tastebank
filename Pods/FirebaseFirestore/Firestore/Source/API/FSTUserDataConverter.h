@@ -18,16 +18,11 @@
 
 #include <vector>
 
-#include "Firestore/core/src/firebase/firestore/core/user_data.h"
-#include "Firestore/core/src/firebase/firestore/model/database_id.h"
-#include "Firestore/core/src/firebase/firestore/model/document_key.h"
-#include "Firestore/core/src/firebase/firestore/model/field_mask.h"
-#include "Firestore/core/src/firebase/firestore/model/field_transform.h"
-#include "Firestore/core/src/firebase/firestore/model/precondition.h"
+#include "Firestore/core/src/core/core_fwd.h"
+#include "Firestore/core/src/model/database_id.h"
+#include "Firestore/core/src/model/model_fwd.h"
 
-@class FSTObjectValue;
-@class FSTFieldValue;
-@class FSTMutation;
+@class FIRTimestamp;
 
 namespace core = firebase::firestore::core;
 namespace model = firebase::firestore::model;
@@ -46,12 +41,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)init NS_UNAVAILABLE;
 
 - (instancetype)initWithKey:(model::DocumentKey)key
-                 databaseID:(const model::DatabaseId *)databaseID NS_DESIGNATED_INITIALIZER;
+                 databaseID:(model::DatabaseId)databaseID NS_DESIGNATED_INITIALIZER;
 
 - (const model::DocumentKey &)key;
 
-// Does not own the DatabaseId instance.
-@property(nonatomic, assign, readonly) const model::DatabaseId *databaseID;
+@property(nonatomic, assign, readonly) const model::DatabaseId &databaseID;
 
 @end
 
@@ -68,7 +62,7 @@ typedef id _Nullable (^FSTPreConverterBlock)(id _Nullable);
 @interface FSTUserDataConverter : NSObject
 
 - (instancetype)init NS_UNAVAILABLE;
-- (instancetype)initWithDatabaseID:(const model::DatabaseId *)databaseID
+- (instancetype)initWithDatabaseID:(model::DatabaseId)databaseID
                       preConverter:(FSTPreConverterBlock)preConverter NS_DESIGNATED_INITIALIZER;
 
 /** Parse document data from a non-merge setData call.*/
@@ -81,7 +75,15 @@ typedef id _Nullable (^FSTPreConverterBlock)(id _Nullable);
 - (core::ParsedUpdateData)parsedUpdateData:(id)input;
 
 /** Parse a "query value" (e.g. value in a where filter or a value in a cursor bound). */
-- (FSTFieldValue *)parsedQueryValue:(id)input;
+- (model::FieldValue)parsedQueryValue:(id)input;
+
+/**
+ * Parse a "query value" (e.g. value in a where filter or a value in a cursor bound).
+ *
+ * @param allowArrays Whether the query value is an array that may directly contain additional
+ * arrays (e.g.) the operand of an `in` query).
+ */
+- (model::FieldValue)parsedQueryValue:(id)input allowArrays:(bool)allowArrays;
 
 @end
 

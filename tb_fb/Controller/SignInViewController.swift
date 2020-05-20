@@ -10,7 +10,7 @@ import Firebase
 import GoogleSignIn
 import UIKit
 
-class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDelegate,  UITextFieldDelegate {
+class SignInViewController: UIViewController, GIDSignInDelegate,  UITextFieldDelegate {
     
     @IBOutlet weak var firstNameTextField: UITextField!
     
@@ -31,7 +31,9 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
         errorLabel.alpha = 0
         
         GIDSignIn.sharedInstance().delegate = self
-        GIDSignIn.sharedInstance().uiDelegate = self
+        GIDSignIn.sharedInstance()?.presentingViewController = self
+
+        //GIDSignIn.sharedInstance().uiDelegate = self
         
         //GIDSignIn.sharedInstance().signIn()
         

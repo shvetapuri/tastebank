@@ -34,9 +34,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     @available(iOS 9.0, *)
     func application(_ application: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any])
         -> Bool {
-            return GIDSignIn.sharedInstance().handle(url,
-                                                     sourceApplication:options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String,
-                                                     annotation: [:])
+           // return GIDSignIn.sharedInstance().handle(url,
+                          //                           sourceApplication:options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String,
+                                           //          annotation: [:])
+            return GIDSignIn.sharedInstance().handle(url)
+
     }
     fileprivate func setupGoogleButtons() {
         //add google sign in button
@@ -44,7 +46,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
        // googleButton.frame = CGRect(x: 16, y: 116 + 66, width: view.frame.width - 32, height: 50)
        // view.addSubview(googleButton)
         
-        GIDSignIn.sharedInstance().uiDelegate = self as? GIDSignInUIDelegate
+       // GIDSignIn.sharedInstance().uiDelegate = self as? GIDSignInUIDelegate
     }
     
 
