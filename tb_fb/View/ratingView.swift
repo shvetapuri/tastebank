@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ratingView: UIStackView {
+@IBDesignable class ratingView: UIStackView {
     @IBOutlet weak var imgView1: UIImageView!
     @IBOutlet weak var imgView2: UIImageView!
     @IBOutlet weak var imgView3: UIImageView!
@@ -41,6 +41,17 @@ class ratingView: UIStackView {
         bArray = [b1, b2, b3, b4, b5]
         initializeImageArray()
         //createStars(rating: TableViewCell_WithImage)
+        
+        setAutolayout()
+    }
+    
+    func setAutolayout() {
+        
+        for i in bArray {
+            i.translatesAutoresizingMaskIntoConstraints = false
+            i.heightAnchor.constraint(equalToConstant: 25.0).isActive = true
+            i.widthAnchor.constraint(equalToConstant: 25.0).isActive = true
+        }
     }
     
     func initializeImageArray() {

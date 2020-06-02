@@ -30,7 +30,6 @@ class MasterViewController: UIViewController , loadDataDelegate {
     var filteredTastes = [Tastes]()
     var filteredByCategory = [Tastes]()
     
-    @IBOutlet weak var ratingViewInt: ratingView!
     
     var user: User!
     var handle: AuthStateDidChangeListenerHandle?
@@ -56,7 +55,9 @@ class MasterViewController: UIViewController , loadDataDelegate {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear (animated)
-        
+        if #available(iOS 13.0, *) {
+            self.isModalInPresentation = true
+        } 
         //set up observer for table reload requests
      //   NotificationCenter.default.addObserver(self, selector: #selector(reloadTBV), name: NSNotification.Name(rawValue: "load"), object: nil)
         
@@ -132,9 +133,9 @@ class MasterViewController: UIViewController , loadDataDelegate {
      // Pass the selected object to the new view controller.
         if segue.identifier == "showAddVC"
         {
-            let nav_vc = segue.destination as? UINavigationController
-            let add_vc = nav_vc?.topViewController as? addViewTableViewController
-            add_vc?.tastesManager = self.tastesManager
+            let vc = segue.destination as? addViewTableViewController
+          //  let add_vc = nav_vc?.topViewController as? addViewTableViewController
+            vc?.tastesManager = self.tastesManager
             
         }
      }

@@ -33,6 +33,8 @@ class SignInViewController: UIViewController, GIDSignInDelegate,  UITextFieldDel
         GIDSignIn.sharedInstance().delegate = self
         GIDSignIn.sharedInstance()?.presentingViewController = self
 
+        passwordField.delegate = self
+        emailField.delegate = self
         //GIDSignIn.sharedInstance().uiDelegate = self
         
         //GIDSignIn.sharedInstance().signIn()
@@ -49,7 +51,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate,  UITextFieldDel
 //
         
         googleSignIn = GIDSignInButton()
-        googleSignIn.frame = CGRect(x: 35, y: 620, width: view.frame.width - 64, height: 70)
+        googleSignIn.frame = CGRect(x: 35, y: 520, width: view.frame.width - 64, height: 70)
        // googleSignIn.frame = CGRect(x: 15, y: 625, width: view.frame.width - 32, height: 50)
         //googleSignIn.center = view.center
         
@@ -62,8 +64,13 @@ class SignInViewController: UIViewController, GIDSignInDelegate,  UITextFieldDel
         Auth.auth().addStateDidChangeListener() { auth, user in
     
         if user != nil {
+            // Safe Present
+            if let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MasterViewController") as? MasterViewController
+            {
+                self.present(vc, animated: true, completion: nil)
+            }
+            //self.performSegue(withIdentifier: "login", sender: nil)
             
-            self.performSegue(withIdentifier: "login", sender: nil)
     //                let homeViewController = self.storyboard?.instantiateViewController(withIdentifier: ConstantVal.Storyboard.homeViewController) as? MasterTableViewController
     //                self.view.window?.rootViewController = homeViewController
     //                self.view.window?.makeKeyAndVisible()
@@ -79,7 +86,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate,  UITextFieldDel
         let passwordTest = NSPredicate(format: "SELF MATCHES %@", "^(?=.*[a-z])(?=.*[$@$#!%*?&])[A-Za-z\\d$@$#!%*?&]{8,}")
         return passwordTest.evaluate(with: password)
     }
-    
+
     func validateFields (email: String?, password: String?) -> String? {
         //check that all fields are filled in
         if  emailField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" || passwordField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
@@ -95,6 +102,8 @@ class SignInViewController: UIViewController, GIDSignInDelegate,  UITextFieldDel
         
         return nil
     }
+    
+    
     @IBAction func signInButtonTapped(_ sender: Any) {
         //validate fields
         let error = validateFields(email: emailField.text, password: passwordField.text)
@@ -117,7 +126,10 @@ class SignInViewController: UIViewController, GIDSignInDelegate,  UITextFieldDel
             }
             else {
                 //transition to home view controller
-               self.performSegue(withIdentifier: "login", sender: nil)
+              if let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MasterViewController") as? MasterViewController
+               {
+                   self.present(vc, animated: true, completion: nil)
+               }
             }
          }
         }
@@ -168,8 +180,10 @@ class SignInViewController: UIViewController, GIDSignInDelegate,  UITextFieldDel
                 
                 //after confirming user has db entry or adding db entry show new view controller
                 //once signed in , and database entry verified , present main view controller
-                self.performSegue(withIdentifier: "login", sender: nil)
-                    
+                if let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MasterViewController") as? MasterViewController
+                {
+                    self.present(vc, animated: true, completion: nil)
+                }
             
         }
         })
@@ -236,9 +250,12 @@ class SignInViewController: UIViewController, GIDSignInDelegate,  UITextFieldDel
         if textField == passwordField {
             textField.resignFirstResponder()
         }
+        
+        textField.resignFirstResponder()
+
         return true
     }
-    
+ 
     
     /*
     // MARK: - Navigation
