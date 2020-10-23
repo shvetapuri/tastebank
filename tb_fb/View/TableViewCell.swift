@@ -19,8 +19,10 @@ class TableViewCell: UITableViewCell {
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var rest_vine_brand_name: UILabel!
-    @IBOutlet weak var add_type_year_label: UITextView!
+    @IBOutlet weak var add_type_year_label: UILabel!
     @IBOutlet weak var notesLabel: UITextView!
+    
+    @IBOutlet weak var categoryLabel: UILabel!
     //@IBOutlet weak var rv: ratingView!
     
    /// weak var delegate:updateRating?
@@ -65,7 +67,11 @@ class TableViewCell: UITableViewCell {
         //self.ratingLabel.text = taste.dictionary["Rating"] as? String
         //delegate?.createStars(rating: taste.dictionary["Rating"]!! as NSString)
         //ratingView.createStars(rating: taste.dictionary["Rating"]!! as NSString)
+        print("here is the rating")
+        print(taste.dictionary["Rating"]!! as NSString)
         ratingView.createStars(rating: taste.dictionary["Rating"]!! as NSString)
+        
+        self.categoryLabel.text = taste.dictionary["Category"] as? String
         self.rest_vine_brand_name.text = taste.dictionary[labels[2]] as? String
         if (labels.contains("Year")) {
             self.add_type_year_label.text = (taste.dictionary[labels[3]]!!) + " Year:" + (taste.dictionary[labels[4]]!!)

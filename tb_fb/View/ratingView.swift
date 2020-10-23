@@ -61,7 +61,7 @@ import UIKit
     }
     
     @IBAction func buttonPressed(_ sender: UIButton) {
-        
+        initializeImageArray()
         let yellowStar = UIImage(named:"star")
         let grayStar = UIImage(named:"star-1")
                 
@@ -72,6 +72,7 @@ import UIKit
             for i in 0...sender.tag {
                 bArray[i].setImage(yellowStar, for: .normal)
                 rating+=1
+                
             }
             
         } else if(sender.currentImage == yellowStar) {
@@ -82,23 +83,38 @@ import UIKit
                 if (rating > 0) {
                     rating = rating - 1
                 }
+                
             }
+            
         }
     }
     
     func createStars (rating:NSString) {
         //image views for stars and add appropriate number
         //of yellow and gray stars depending on rating
-        
-        if let ratingNum = Int(rating as String){
+        initializeImageArray()
+        if var ratingNum = Int(rating as String){
+            if (ratingNum == 0 ) {ratingNum = 1}
             for i in 0...ratingNum-1 {
                 bArray[i].setImage(UIImage(named: "star"), for: .normal)
             }
         }
     }
     
+    func deactivateButtons() {
+        for button in bArray {
+            button.isUserInteractionEnabled = false
+        }
+    }
+    
+    func activateButtons() {
+        for button in bArray {
+            button.isUserInteractionEnabled = true
+        }
+    }
+    
     func getRating() -> String {
-        print("in getrating")
+        
         return String(rating)
         
     }

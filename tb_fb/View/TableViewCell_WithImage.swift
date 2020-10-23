@@ -20,11 +20,14 @@ class TableViewCell_WithImage: UITableViewCell {
     
     @IBOutlet weak var rest_vine_brand_name: UILabel!
     
-    @IBOutlet weak var add_type_year_label: UITextView!
+    @IBOutlet weak var add_type_year_label: UILabel!
     
+    @IBOutlet weak var categoryLabel: UILabel!
     @IBOutlet weak var notesLabel: UITextView!
     
     @IBOutlet weak var ratingView: ratingView!
+
+    var taste: Tastes!
 
     ///weak var delegate:updateRating?
    /// static weak var shared: TableViewCell_WithImage?
@@ -43,7 +46,7 @@ class TableViewCell_WithImage: UITableViewCell {
 
     func configureCell( taste: Tastes, tastesManager:TastesManager, ratingView: ratingView)
         {
-    
+        self.taste = taste
         self.imgView?.image = nil
             
         self.imgView?.image = UIImage(data: taste.image!)
@@ -56,6 +59,8 @@ class TableViewCell_WithImage: UITableViewCell {
             //taste.dictionary["Rating"] as? String
     ///       delegate?.createStars(rating: taste.dictionary["Rating"]!! as NSString)
             ratingView.createStars(rating: taste.dictionary["Rating"]!! as NSString)
+            
+            self.categoryLabel.text = taste.dictionary["Category"] as? String
             
             self.rest_vine_brand_name.text = taste.dictionary[labels[2]] as? String
             if (labels.contains("Year")) {

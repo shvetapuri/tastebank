@@ -103,8 +103,9 @@ class DataService {
 
                     
     
-    func createTasteEntryDB(TasteDict: Tastes) {
+    func createTasteEntryDB(TasteDict: Tastes) -> String  {
         //find user id
+        var docId = ""
         if let user = Auth.auth().currentUser {
             
             
@@ -115,6 +116,7 @@ class DataService {
             if let err = err {
                 print("Error adding document: \(err)")
             } else {
+                docId = ref!.documentID
                 print("Document added with ID: \(ref!.documentID)")
             }
         }
@@ -122,8 +124,27 @@ class DataService {
         } else {
             print ("Error, no user was found")
         }
+        
+       return docId
     }
     
+    func EditTasteEntryDB(TasteDict: Tastes, ID: String) {
+//    //edit existing entry
+        if let user = Auth.auth().currentUser {
+            
+            DB_BASE.collection("Users").document(user.uid).collection("Tastes").document(ID).updateData(TasteDict.dictionaryImage as [String : Any]) { (error:Error?) in
+              if let error = error {
+                print("Data could not be saved: \(error).")
+              } else {
+                print("Data saved successfully!")
+              }
+            }
+            
+        } else {
+            print ("Error, no user was found")
+        }
+        
+    }
     func loadDBTastes( completion: @escaping ((_ tastesArr: [Tastes] ) -> Void))   {
         //var snapshot
         
@@ -138,9 +159,9 @@ class DataService {
                 } else {
                     for document in querySnapshot!.documents {
                         print ("query snapthop", document.data())
-                    
-                        let t = Tastes(dictionary: document.data())
-                        
+                        print("doc id,", document.documentID)
+                        var t = Tastes(dictionary: document.data())
+                        t?.id = document.documentID
                         print("hi i am turning snapshot into struct \(String(describing: t)))")
                     
                         if (t != nil) {

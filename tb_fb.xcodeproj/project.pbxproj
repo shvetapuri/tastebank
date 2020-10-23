@@ -27,6 +27,7 @@
 		E68A84872332A9E0005A3FD6 /* ResultsTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68A84862332A9E0005A3FD6 /* ResultsTableController.swift */; };
 		E68A848D2333E447005A3FD6 /* AddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68A848C2333E447005A3FD6 /* AddViewController.swift */; };
 		E68A848F2333E452005A3FD6 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68A848E2333E452005A3FD6 /* SearchViewController.swift */; };
+		E6935E7D24B391B200F12FC5 /* DetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6935E7C24B391B200F12FC5 /* DetailTableViewController.swift */; };
 		E6A0D0022343BA27001211F5 /* addView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6A0D0012343BA27001211F5 /* addView.swift */; };
 		E6A97F92240DB429009B2AFA /* TableViewCell_WithImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6A97F91240DB429009B2AFA /* TableViewCell_WithImage.swift */; };
 		E6C1790E22862027000516D6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6C1790D22862027000516D6 /* AppDelegate.swift */; };
@@ -96,6 +97,7 @@
 		E68A84862332A9E0005A3FD6 /* ResultsTableController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsTableController.swift; sourceTree = "<group>"; };
 		E68A848C2333E447005A3FD6 /* AddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddViewController.swift; sourceTree = "<group>"; };
 		E68A848E2333E452005A3FD6 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		E6935E7C24B391B200F12FC5 /* DetailTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTableViewController.swift; sourceTree = "<group>"; };
 		E6A0D0012343BA27001211F5 /* addView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = addView.swift; sourceTree = "<group>"; };
 		E6A97F91240DB429009B2AFA /* TableViewCell_WithImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell_WithImage.swift; sourceTree = "<group>"; };
 		E6C1790A22862027000516D6 /* tb_fb.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tb_fb.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -307,6 +309,7 @@
 				E6CA21492320636F003DB634 /* SignInViewController.swift */,
 				E6CCF1A82326C48E00F97069 /* SignUpViewController.swift */,
 				E6C1790F22862027000516D6 /* MasterViewController.swift */,
+				E6935E7C24B391B200F12FC5 /* DetailTableViewController.swift */,
 				E6892D7D24620F2700F5ECF6 /* addViewTableViewController.swift */,
 			);
 			path = Controller;
@@ -630,6 +633,7 @@
 				E68A848D2333E447005A3FD6 /* AddViewController.swift in Sources */,
 				E6CA214323203D92003DB634 /* RoundButton.swift in Sources */,
 				E62C53C4237C8B5600825160 /* CollectionViewCell.swift in Sources */,
+				E6935E7D24B391B200F12FC5 /* DetailTableViewController.swift in Sources */,
 				E6CA2147232040B1003DB634 /* styleButton.swift in Sources */,
 				E6C1791022862027000516D6 /* MasterViewController.swift in Sources */,
 				E68A847F23299355005A3FD6 /* LoginViewController.swift in Sources */,

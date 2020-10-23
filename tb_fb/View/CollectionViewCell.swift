@@ -12,7 +12,29 @@ class CollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var collectionCellLabel: UILabel!
     
+    
+    override func awakeFromNib() {
+    super.awakeFromNib()
+        
+        
+    }
     func configureCollectionCell(_ category: String) {
-            collectionCellLabel.text = category
+       // collectionCellLabel.backgroundColor = UIColor(patternImage: UIImage(named: "star")!)
+            
+        
+        collectionCellLabel.text = category
+        collectionCellLabel.layer.masksToBounds = true
+        collectionCellLabel.layer.cornerRadius = 6
+        
+    }
+    
+    func selected() {
+        collectionCellLabel.backgroundColor = #colorLiteral(red: 0.986794099, green: 0.9701784753, blue: 0.8416773197, alpha: 1)
+        
+
+    }
+    
+    func deselected() {
+        collectionCellLabel.backgroundColor = nil
     }
 }

@@ -144,7 +144,7 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         } else {
             categoryButtonTapped = false
         }
-        print ("fbc starts \(filteredByCategory)")
+        //print ("fbc starts \(filteredByCategory)")
         tableView.reloadData()
     }
     

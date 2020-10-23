@@ -13,7 +13,7 @@ struct Tastes : Equatable{
 
     var name: String?
     var category: String?
-    var rating: String?
+    var rating = "1"
     var restaurant: String?
     var vineyardName: String?
     var brandName: String?
@@ -22,6 +22,7 @@ struct Tastes : Equatable{
     var year: String?
     var address: String?
     var image: Data?
+    var id = ""
     var dictionary: [String: String?] {
         return [
             "Name": name,
@@ -52,7 +53,7 @@ struct Tastes : Equatable{
             "image": image
         ]}
     
-  
+    
     func getImage() -> Data? {
         if (image != nil) {
             return image!
@@ -62,6 +63,9 @@ struct Tastes : Equatable{
         
     }
     
+    func getID() -> String {
+        return id
+    }
     mutating func setImage(imageToSave: Data) {
         self.image = imageToSave
     }
@@ -91,7 +95,7 @@ extension Tastes: DocumentSerializable {
             print("Error, Tastes struct was not created for this entry")
             return nil}
         
-        self.init(name: name, category: category, rating: rating, restaurant: restaurant, vineyardName: vineyardName, brandName: brandName, type: type, comments: comments, year: year, address: address, image: dictionary["image"] as? Data)
+        self.init(name: name, category: category, rating: rating, restaurant: restaurant, vineyardName: vineyardName,  brandName: brandName, type: type, comments: comments, year: year, address: address, image: dictionary["image"] as? Data)
     }
     
     init?( dictionary: [String : Any], image: Data) {
@@ -119,13 +123,13 @@ extension Tastes: DocumentSerializable {
         self.name = name
         self.category = category
         self.rating = rating
-        self.restaurant = nil
-        self.vineyardName = nil
-        self.brandName = nil
-        self.type = nil
-        self.comments = nil
-        self.year = nil
-        self.address = nil
+        self.restaurant = "none"
+        self.vineyardName = "none"
+        self.brandName = "none"
+        self.type = "none"
+        self.comments = "none"
+        self.year = "none"
+        self.address = "none"
         
     }
     init (name: String, category: String, rating: String, restaurant: String? = nil, vineyardName: String? = nil, brandName: String? = nil, type: String? = nil, comments: String? = nil, year: String? = nil, address: String? = nil , image: Data? = nil) {

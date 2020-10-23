@@ -8,7 +8,9 @@
 
 import UIKit
 
-class addViewTableViewController: UITableViewController, UITextViewDelegate {
+class addViewTableViewController: UITableViewController, UITextViewDelegate, UITextFieldDelegate {
+    
+    
 
     @IBOutlet weak var addButton: UIButton!
     
@@ -32,6 +34,8 @@ class addViewTableViewController: UITableViewController, UITextViewDelegate {
     
     var labelsArr: [String] = []
     
+    @IBOutlet weak var navItem: UINavigationItem!
+    
     @IBOutlet weak var c1: UITableViewCell!
     @IBOutlet weak var c2: UITableViewCell!
     @IBOutlet weak var c3: UITableViewCell!
@@ -54,6 +58,8 @@ class addViewTableViewController: UITableViewController, UITextViewDelegate {
         pickerView.dataSource = self
         
         notesTF.delegate = self
+        navItem.title = "Add A Taste"
+        
         
         //when first loaded show dish in pickerview
         pickerView.selectRow(0, inComponent: 0, animated: true)
@@ -66,10 +72,7 @@ class addViewTableViewController: UITableViewController, UITextViewDelegate {
         
         //text view border
         
-        notesTF.layer.cornerRadius = 5
-        notesTF.layer.borderColor = UIColor.gray.withAlphaComponent(0.5).cgColor
-        notesTF.layer.borderWidth = 0.7
-        notesTF.clipsToBounds = true
+        setupTF()
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -78,6 +81,28 @@ class addViewTableViewController: UITableViewController, UITextViewDelegate {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
     
+    func setupTF() {
+        
+        notesTF.layer.cornerRadius = 5
+        notesTF.layer.borderColor = UIColor.gray.withAlphaComponent(0.5).cgColor
+        notesTF.layer.borderWidth = 0.7
+        notesTF.clipsToBounds = true
+        notesTF.delegate = self
+        
+        nameTF.delegate = self
+        nameTF.borderStyle = UITextField.BorderStyle.roundedRect
+        c1_TF.delegate = self
+        c1_TF.borderStyle = UITextField.BorderStyle.roundedRect
+        c2_TF.delegate = self
+        c2_TF.borderStyle = UITextField.BorderStyle.roundedRect
+        c3_TF.delegate = self
+        c3_TF.borderStyle = UITextField.BorderStyle.roundedRect
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
     override func tableView(_ tableView: UITableView,
                             heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.row == 0 {
@@ -223,11 +248,14 @@ class addViewTableViewController: UITableViewController, UITextViewDelegate {
             dictOfTaste["Rating"] = rating
         
             //save all other fields
-            for i in 0...labelsArr.count-1 {
+            for i in 0...cellTFArray.count-1 {
                 dictOfTaste[labelsArr[i]] = cellTFArray[i].text
             }
-        
-            dictOfTaste["Category"] = category
+            if (category == "Other") {
+                dictOfTaste["Category"] = c2_TF.text
+            } else {
+                dictOfTaste["Category"] = category
+            }
         
             var t: Tastes?
             if ((imageView.image) != nil) {
@@ -247,7 +275,8 @@ class addViewTableViewController: UITableViewController, UITextViewDelegate {
             //save in database
 
                 let msg = tastesManager?.addTasteToDB(TasteObj: t!, BypassCheckFlag: false)
-         
+                tastesManager?.loadTastesFromDBToTastesArr()
+                
                 if(msg == "duplicate") {
                  //present alert if duplicate entry
              
@@ -272,7 +301,8 @@ class addViewTableViewController: UITableViewController, UITextViewDelegate {
         } else {
             alertUser(message: "Please enter taste name and rating to save taste.")
         }
-    
+        
+        tableView.reloadData()
     
     }
    

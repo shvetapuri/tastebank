@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class MasterViewController: UIViewController , loadDataDelegate {
+class MasterViewController: UIViewController , loadDataDelegate, UIPopoverPresentationControllerDelegate {
    
     var categoryButtonTapped: Bool = false
     
@@ -26,6 +26,7 @@ class MasterViewController: UIViewController , loadDataDelegate {
 
     var tastesManager = TastesManager()
     
+    var currentTaste: Tastes!
     var tasteList: [Tastes] = []
     var filteredTastes = [Tastes]()
     var filteredByCategory = [Tastes]()
@@ -34,9 +35,12 @@ class MasterViewController: UIViewController , loadDataDelegate {
     var user: User!
     var handle: AuthStateDidChangeListenerHandle?
     
+    let filterButtons = ["Show All", "Dish", "Dessert", "Chocolate", "Cheese", "Coffee" ]
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+       // definesPresentationContext = true
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -51,8 +55,10 @@ class MasterViewController: UIViewController , loadDataDelegate {
         // Setup the Search Controller
         
         setupSearchBar()
+        
     }
 
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear (animated)
         if #available(iOS 13.0, *) {
@@ -72,10 +78,17 @@ class MasterViewController: UIViewController , loadDataDelegate {
             
             //load data from firebase
             tastesManager.loadTastesFromDBToTastesArr()
-            
+           // tableView.reloadData()
+            print("data is being reloaded from db")
             
         }
+        self.searchController.searchBar.text = ""
     }
+    
+//    override func viewWillDisappear(_ animated: Bool) {
+//        super.viewWillDisappear(animated)
+//        searchController.dismiss(animated: false, completion: nil)
+//    }
     
     func dataWasLoaded() {
         tableView.reloadData()
@@ -124,7 +137,7 @@ class MasterViewController: UIViewController , loadDataDelegate {
         return searchController.isActive && !searchBarIsEmpty()
     }
     
-
+    
         // MARK: - Navigation
      
      // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -138,10 +151,38 @@ class MasterViewController: UIViewController , loadDataDelegate {
             vc?.tastesManager = self.tastesManager
             
         }
+        if segue.identifier == "ShowPopOver" {
+            
+//            if let indexPath = tableView!.indexPathForSelectedRow as NSIndexPath?{
+//
+//                print("in segue")
+//                let nc = segue.destination as! UINavigationController
+//                let vc = nc.topViewController as! DetailTableViewController
+//
+//                if (tableView.cellForRow(at: indexPath as IndexPath) is TableViewCell_WithImage) {
+//                    let cell_w_image = tableView.cellForRow(at: indexPath as IndexPath) as? TableViewCell_WithImage
+//                    vc.tasteInfo = cell_w_image!.taste
+//
+//                }
+//                else   {
+//                     let cell = tableView.cellForRow(at: indexPath as IndexPath) as? TableViewCell
+//                    vc.tasteInfo = cell!.taste
+//                }
+//
+//                if searchController.isActive {
+//                    self.searchController.dismiss(animated: false) {
+//                        // Do what you want here like perform segue or present
+//
+//                    }
+//                }
+//
+//                vc.tastesManager = self.tastesManager
+//
+//
+//            }
+        }
      }
- 
-    
-}
+ }
 
 
 extension MasterViewController: UISearchResultsUpdating, UISearchBarDelegate {
@@ -163,7 +204,7 @@ extension MasterViewController: UISearchResultsUpdating, UISearchBarDelegate {
         //   let frame = CGRect(x: 0, y: 0, width: 100, height: 64)
         //   searchController.searchBar.frame = frame
         
-        //    searchBarView.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
+        searchBarView.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
         
         searchBarView.addSubview(searchController.searchBar)
         definesPresentationContext = true
@@ -200,12 +241,11 @@ extension MasterViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 212
+        return 197
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let taste: Tastes
-        
         if isFiltering() {
             taste = filteredTastes[indexPath.row]
         } else if (categoryButtonTapped) {
@@ -217,7 +257,7 @@ extension MasterViewController: UITableViewDelegate, UITableViewDataSource {
             taste = tastesManager.tastesArray[indexPath.row]
             
         }
-        
+
         if (taste.image != nil) {
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell_w_image") as! TableViewCell_WithImage
             let rv = cell.viewWithTag(123) as! ratingView
@@ -243,16 +283,63 @@ extension MasterViewController: UITableViewDelegate, UITableViewDataSource {
             return cell
         }
         }
+//        func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+//            return .none
+//        }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+       
         
-    
+//        if isFiltering() {
+//            currentTaste = filteredTastes[indexPath.row]
+//        } else if (categoryButtonTapped) {
+//            //categoryButtonTapped = false
+//            currentTaste = filteredByCategory[indexPath.row]
+//
+//        } else {
+            // taste = tasteList[indexPath.row]
+        
+        if let view = storyboard?.instantiateViewController(withIdentifier: "DetailTableViewController") as? DetailTableViewController {
+                
+               // let nc = UINavigationController(rootViewController: view)
+        
+                view.tastesManager = self.tastesManager
+            
+             if (tableView.cellForRow(at: indexPath as IndexPath) is TableViewCell_WithImage) {
+                                let cell_w_image = tableView.cellForRow(at: indexPath as IndexPath) as? TableViewCell_WithImage
+                                view.tasteInfo = cell_w_image!.taste
+            
+                            }
+                            else   {
+                                 let cell = tableView.cellForRow(at: indexPath as IndexPath) as? TableViewCell
+                                view.tasteInfo = cell!.taste
+                            }
+     
+        
+            
+         //   view.tasteInfo = cell.taste
+            
+                let nc = UINavigationController(rootViewController: view)
+                                
+                if(searchController.isActive) {
+                  //  searchController.isActive = false
+                    searchController.present(nc, animated: true, completion: nil)
+
+                } else {
+                    self.present(nc, animated: true, completion: nil)
+                }
+              }
+       
+ }
     
 
 }
 extension MasterViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
     
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-       return tastesManager.returnAllCategories().count
+       //return tastesManager.returnAllCategories().count
+        return filterButtons.count
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -261,20 +348,52 @@ extension MasterViewController: UICollectionViewDataSource, UICollectionViewDele
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         var cell : CollectionViewCell
+        
+        
         cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionCell", for: indexPath) as! CollectionViewCell
+        let category = filterButtons[indexPath.row]
+
         
-        cell.configureCollectionCell(tastesManager.returnAllCategories()[indexPath.row])
+        if (indexPath == [0,0]) {
+            print ("indexpath", indexPath)
+            cell.isSelected = true
+
+            collectionView.selectItem(at: indexPath, animated: false, scrollPosition: UICollectionView.ScrollPosition.centeredHorizontally)
+            
+            cell.selected()
+        } else {
+            cell.deselected()
+        }
         
+        //cell.configureCollectionCell(tastesManager.returnAllCategories()[indexPath.row])
+        cell.configureCollectionCell(category)
+       
+       
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath) as? CollectionViewCell
         
-        let category =  tastesManager.returnAllCategories()[indexPath.row]
-    
-        categoryButtonTapped = true
-        filteredByCategory = tastesManager.filterTastesByCategory(category: category )
+        //let category =  tastesManager.returnAllCategories()[indexPath.row]
+        let category = filterButtons[indexPath.row]
+        if (category != "Show All") {
+            categoryButtonTapped = true
+            filteredByCategory = tastesManager.filterTastesByCategory(category: category )
+        } else {
+            categoryButtonTapped = false
+        }
+        cell?.selected()
         tableView.reloadData()
+        
+        
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        if let cell = collectionView.cellForItem(at: indexPath) as? CollectionViewCell {
+            cell.deselected()
+        }
+    }
+    
     
 }
